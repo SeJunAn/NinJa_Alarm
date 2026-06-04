@@ -150,12 +150,15 @@ public class MainActivity extends AppCompatActivity {
 
                 if (!dets.isEmpty()) {
                     YoloxDetector.Detection top = dets.get(0);
-                    String name = labels.name(top.classId);
-                    Log.i(TAG, String.format("sign=%s id=%d score=%.2f box=[%.0f,%.0f,%.0f,%.0f]",
-                            name, top.classId, top.score, top.x1, top.y1, top.x2, top.y2));
+                    // labels.csv 0번 줄("None")은 자리표시자라 모델 class_id 보다 1 크다.
+                    // 레퍼런스(simple_demo.py / Ninjutsu_demo.py)와 동일하게 +1 해서 조회.
+                    int labelId = top.classId + 1;
+                    String name = labels.name(labelId);
+                    Log.i(TAG, String.format("sign=%s labelId=%d (model=%d) score=%.2f box=[%.0f,%.0f,%.0f,%.0f]",
+                            name, labelId, top.classId, top.score, top.x1, top.y1, top.x2, top.y2));
                     runOnUiThread(() ->
                             statusText.setText(String.format("%s  %.2f", name, top.score)));
-                    onSignDetected(top.classId, name, top.score);
+                    onSignDetected(labelId, name, top.score);
                 } else {
                     runOnUiThread(() -> statusText.setText("-"));
                 }
@@ -172,7 +175,8 @@ public class MainActivity extends AppCompatActivity {
      * 인(印) 1개가 인식되었을 때 호출. (2번 단계에서) 인 시퀀스를 누적해
      * jutsu.csv 패턴과 매칭되면 알람을 해제하는 로직을 여기 붙인다.
      */
-    private void onSignDetected(int classId, String name, float score) {
+    private void onSignDetected(int labelId, String name, float score) {
+        // labelId = labels.csv 줄 번호(1=Ne(Rat) ... 15=Mizunoe). jutsu.csv 매칭의 기준 id.
         // TODO: 인 시퀀스 누적 → jutsu.csv 매칭 → 알람 해제
     }
 
