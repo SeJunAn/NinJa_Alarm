@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -c \"import onnx; print\\(onnx.__version__\\)\")",
+      "Bash(python3 -c \"import onnx; print\\(onnx.__version__\\)\")",
+      "Bash(python -c \"import onnxruntime as ort; print\\(ort.__version__\\)\")",
+      "Bash(pip install *)",
+      "Bash(python -c \"import onnx; print\\('ok', onnx.__version__\\)\")",
+      "Bash(python -c ' *)",
+      "PowerShell($env:JAVA_HOME=\"C:\\\\Program Files\\\\Android\\\\Android Studio\\\\jbr\"; cd \"C:\\\\Users\\\\ipl1\\\\Desktop\\\\MyApplication\"; .\\\\gradlew.bat :app:assembleDebug --console=plain 2>&1 | Select-Object -Last 70)",
+      "PowerShell($sdk = if\\($env:ANDROID_HOME\\){$env:ANDROID_HOME}elseif\\($env:ANDROID_SDK_ROOT\\){$env:ANDROID_SDK_ROOT}else{\"$env:LOCALAPPDATA\\\\Android\\\\Sdk\"}; Write-Output \"SDK: $sdk  \\(exists=$\\(Test-Path $sdk\\)\\)\"; $adb=\"$sdk\\\\platform-tools\\\\adb.exe\"; $emu=\"$sdk\\\\emulator\\\\emulator.exe\"; Write-Output \"adb exists: $\\(Test-Path $adb\\)\"; Write-Output \"emulator exists: $\\(Test-Path $emu\\)\"; Write-Output \"--- AVDs ---\"; if\\(Test-Path $emu\\){ & $emu -list-avds }; Write-Output \"--- devices ---\"; if\\(Test-Path $adb\\){ & $adb devices })",
+      "PowerShell($sdk=\"$env:LOCALAPPDATA\\\\Android\\\\Sdk\"; $adb=\"$sdk\\\\platform-tools\\\\adb.exe\"; $apk=\"C:\\\\Users\\\\ipl1\\\\Desktop\\\\MyApplication\\\\app\\\\build\\\\outputs\\\\apk\\\\debug\\\\app-debug.apk\"; Write-Output \"APK exists: $\\(Test-Path $apk\\)\"; & $adb install -r $apk)",
+      "PowerShell($sdk=\"$env:LOCALAPPDATA\\\\Android\\\\Sdk\"; $adb=\"$sdk\\\\platform-tools\\\\adb.exe\"; & $adb logcat -c; & $adb shell am start -n com.example.myapplication/.MainActivity; Start-Sleep -Seconds 4; Write-Output \"--- logcat \\(Yolox + crashes\\) ---\"; & $adb logcat -d -v brief 2>$null | Select-String -Pattern \"Yolox|AndroidRuntime|FATAL|myapplication\" | Select-Object -Last 40)",
+      "PowerShell($sdk=\"$env:LOCALAPPDATA\\\\Android\\\\Sdk\"; $adb=\"$sdk\\\\platform-tools\\\\adb.exe\"; & $adb shell pm grant com.example.myapplication android.permission.CAMERA; Start-Sleep -Seconds 1; & $adb shell am force-stop com.example.myapplication; & $adb logcat -c; & $adb shell am start -n com.example.myapplication/.MainActivity; Start-Sleep -Seconds 6; Write-Output \"--- Yolox logs ---\"; & $adb logcat -d 2>$null | Select-String -Pattern \"Yolox|FATAL|AndroidRuntime|CameraX|Camera2\" | Select-Object -Last 30)",
+      "PowerShell($sdk=\"$env:LOCALAPPDATA\\\\Android\\\\Sdk\"; $adb=\"$sdk\\\\platform-tools\\\\adb.exe\"; & $adb shell screencap -p /sdcard/shot.png; & $adb pull /sdcard/shot.png \"C:\\\\Users\\\\ipl1\\\\Desktop\\\\MyApplication\\\\shot.png\" 2>$null; Write-Output \"saved\")"
+    ]
+  }
+}
