@@ -1,7 +1,4 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.MyApplication" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
-    </style>
+    <!-- 브랜드가 다크 고정이라 night 는 기본 테마를 그대로 미러링한다. -->
+    <style name="Theme.NinjaAlarm" parent="Base.Theme.NinjaAlarm" />
 </resources>

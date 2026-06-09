@@ -1,5 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--
+        NinJa Alarm — "먹과 인장(印)" 디자인 시스템 컬러 토큰
+        지시서 6.2 시작값. 색은 여기서만 정의하고 화면에서는 토큰만 참조한다.
+    -->
+    <color name="sumi">#0B0B0D</color>       <!-- 먹: 기본 배경 -->
+    <color name="kuro">#16151A</color>       <!-- 흑: 카드/표면 -->
+    <color name="washi">#ECE7DD</color>      <!-- 화선지: 주요 텍스트·종이 포인트 -->
+    <color name="shinobi">#FF5A1F</color>    <!-- 주색: 강조·CTA (로고 오렌지) -->
+    <color name="hi">#B3360E</color>         <!-- 잉걸: 깊은 보조 오렌지(그라데이션·프레스) -->
+    <color name="kasumi">#8A8790</color>     <!-- 안개: 보조 텍스트·비활성 -->
+    <color name="seikou">#3FA7A0</color>     <!-- 성공: 해제 성공 -->
+    <color name="shippai">#E5484D</color>    <!-- 실패: 타임아웃·오류 -->
+
+    <!-- 파생 토큰 -->
+    <color name="kuro_elevated">#1F1D24</color>   <!-- 한 단계 떠 있는 표면 -->
+    <color name="washi_dim">#B9B3A8</color>       <!-- 본문 위 약한 텍스트 -->
+    <color name="stroke">#2A2830</color>          <!-- 카드 외곽선/구분선 -->
+    <color name="scrim">#99000000</color>         <!-- 오버레이 위 어둡게 -->
+
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 </resources>
