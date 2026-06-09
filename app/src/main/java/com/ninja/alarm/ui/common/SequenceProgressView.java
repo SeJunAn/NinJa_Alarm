@@ -3,6 +3,7 @@ package com.ninja.alarm.ui.common;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -73,6 +74,15 @@ public class SequenceProgressView extends LinearLayout {
                 tv.setAlpha(1f);
             }
         }
+    }
+
+    /** 단계 확정 펄스 — 해당 칩을 살짝 키웠다 되돌린다. animated=false 면 무시. */
+    public void pulse(int index, boolean animated) {
+        if (!animated || index < 0 || index >= getChildCount()) return;
+        final View chip = getChildAt(index);
+        chip.animate().scaleX(1.4f).scaleY(1.4f).setDuration(120)
+                .withEndAction(() -> chip.animate().scaleX(1f).scaleY(1f).setDuration(160).start())
+                .start();
     }
 
     public int getCurrentStep() {

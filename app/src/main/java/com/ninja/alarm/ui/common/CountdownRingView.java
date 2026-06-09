@@ -64,6 +64,7 @@ public class CountdownRingView extends View {
         this.remaining = Math.max(0f, Math.min(1f, fraction));
         this.secondsLeft = secondsLeft;
         progressPaint.setColor(this.remaining <= 0.25f ? colorLow : colorOk);
+        setContentDescription(getContext().getString(R.string.cd_time_left, secondsLeft));
         invalidate();
     }
 

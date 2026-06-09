@@ -3,7 +3,7 @@
 손으로 인(印)을 맺어야 꺼지는 닌자 알람 앱. 본 저장소는 작업지시서
 `NinJa_Alarm_UI-AI_작업지시서.md` 의 **UI·AI 파트**를 구현한다.
 
-> **현재 진행 단계: Phase 0 (뼈대) · Phase 1 (화면) · Phase 2 (손동작 인식) 완료.**
+> **현재 진행 단계: Phase 0~3 완료** (뼈대 · 화면 · 손동작 인식 · 애니메이션/폴리시).
 
 ---
 
@@ -39,7 +39,7 @@ com.ninja.alarm
 │   ├─ profile/   ProfileFragment, StatsActivity
 │   ├─ settings/  SettingsActivity
 │   ├─ dismiss/   DismissActivity (카메라 인식 통합)
-│   ├─ common/    PlaceholderActivity + 커스텀 뷰(CountdownRing·SequenceProgress·DetectionOverlay)
+│   ├─ common/    PlaceholderActivity + 커스텀 뷰(CountdownRing·SequenceProgress·DetectionOverlay·Stamp)
 │   └─ HomeActivity (하단 내비 셸)
 ├─ ml/            YoloxDetector·Labels(ONNX) + SealRecognizer·SequenceMatcher·SealResult·리스너
 ├─ repository/    인터페이스 5종 + Repositories(DI 지점)
@@ -114,9 +114,26 @@ com.ninja.alarm
 
 ---
 
-## 다음 단계 (예정)
-- **Phase 3:** 인장(印) 스탬프 성공 모션 + 먹 번짐(시그니처), 단계 확정 펄스·레벨업 모션,
-  BE 실연동 교체(DI 지점), 접근성·**모션 줄이기 옵션 존중**(`AppPrefs.isReduceMotion`)
+## Phase 3 산출물 (애니메이션 · 폴리시)
+
+- **시그니처 인장 스탬프(`StampView`):** 해제 성공 시 인장(解)이 오버슈트로 "쾅" 찍히고
+  먹이 번지는 모션. 이 앱을 기억하게 만드는 단 하나의 보너스(지시서 6.1).
+- **단계 확정 펄스:** 인을 맞게 맺으면 해당 진행 칩이 살짝 커졌다 돌아온다(`SequenceProgressView.pulse`).
+- **경험치/레벨 모션:** 프로필 진입 시 경험치 바가 차오르고 칭호가 팝(`setProgressCompat`).
+- **모션 줄이기 존중:** 위 모션은 모두 `AppPrefs.isReduceMotion` 이 켜지면 **즉시 정적 표시**.
+  설정 화면에서 토글.
+- **접근성:** 콘텐츠 설명(로고·스위치·FAB·카운트다운 남은 시간), 장식 오버레이는 접근성 트리에서 제외.
+
+### BE 연동 교체 지점
+`repository/Repositories` 가 유일한 DI 지점이다. BE(김동환) 구현이 들어오면
+`alarm()/sequence()/dismiss()/tutorial()/user()` 가 반환하는 `Fake*` 를 실제 구현으로
+바꾸기만 하면 전 화면이 그대로 동작한다. (현재는 BE 미완이라 Fake 유지)
+
+---
+
+## 빌드/품질
+모든 단계에서 `assembleDebug` · `testDebugUnitTest` · `lintDebug` 통과.
+에뮬레이터(Pixel, Android 17)에서 스플래시→로그인→홈→도감→프로필 동작 확인.
 
 ## 경계 (BE 담당 — 김동환)
 Room/SQLite, AlarmManager 스케줄링, 인증/서버는 구현하지 않는다.

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.SystemClock;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +44,8 @@ import com.ninja.alarm.repository.Repositories;
 import com.ninja.alarm.ui.common.CountdownRingView;
 import com.ninja.alarm.ui.common.DetectionOverlayView;
 import com.ninja.alarm.ui.common.SequenceProgressView;
+import com.ninja.alarm.ui.common.StampView;
+import com.ninja.alarm.util.AppPrefs;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -64,7 +67,6 @@ public class DismissActivity extends AppCompatActivity implements SealRecognitio
     private static final float CONF_TH = 0.5f;      // 확정 신뢰도 임계값
     private static final int DEBOUNCE_FRAMES = 5;   // 연속 N프레임(≈0.3초)
     private static final long DEFAULT_LIMIT_MS = 10_000L;
-    private static final long SUCCESS_CLOSE_DELAY_MS = 1500L;
 
     public static final String EXTRA_ALARM_ID = "extra_alarm_id";
     public static final String EXTRA_SEQUENCE_ID = "extra_sequence_id";
@@ -78,6 +80,7 @@ public class DismissActivity extends AppCompatActivity implements SealRecognitio
     private DetectionOverlayView overlay;
     private CountdownRingView countdownRing;
     private SequenceProgressView progressView;
+    private StampView stampView;
 
     private SealRecognizer recognizer;
     private Labels labels;
@@ -113,6 +116,7 @@ public class DismissActivity extends AppCompatActivity implements SealRecognitio
         overlay = findViewById(R.id.overlay);
         countdownRing = findViewById(R.id.countdownRing);
         progressView = findViewById(R.id.progressView);
+        stampView = findViewById(R.id.stampView);
 
         alarmId = getIntent().getLongExtra(EXTRA_ALARM_ID, -1);
         plan = resolvePlan();
@@ -190,6 +194,7 @@ public class DismissActivity extends AppCompatActivity implements SealRecognitio
     @Override
     public void onStepConfirmed(int stepIndex, int sealId) {
         progressView.setCurrentStep(stepIndex + 1);
+        progressView.pulse(stepIndex, !AppPrefs.isReduceMotion(this)); // 단계 확정 펄스
     }
 
     @Override
@@ -197,10 +202,10 @@ public class DismissActivity extends AppCompatActivity implements SealRecognitio
         attemptActive = false;
         if (timer != null) timer.cancel();
         statusText.setText(R.string.dismiss_success);
-        Toast.makeText(this, R.string.dismiss_success, Toast.LENGTH_SHORT).show();
         recordResult(true, (int) (durationMs / 1000));
-        // TODO(Phase 3): 인장(印) 스탬프 성공 모션 + 먹 번짐
-        statusText.postDelayed(this::finish, SUCCESS_CLOSE_DELAY_MS);
+        // 시그니처: 인장 스탬프 성공 모션(모션 줄이기 시 정적) → 끝나면 화면 종료
+        countdownRing.setVisibility(View.GONE);
+        stampView.play(!AppPrefs.isReduceMotion(this), this::finish);
     }
 
     @Override

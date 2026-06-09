@@ -44,6 +44,9 @@ public class DetectionOverlayView extends View {
         labelText.setColor(ContextCompat.getColor(getContext(), R.color.sumi));
         labelText.setTextSize(dp(14));
         labelText.setFakeBoldText(true);
+
+        // 카메라 위에 박스를 그리는 장식용 오버레이 → 접근성 트리에서 제외
+        setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_NO);
     }
 
     /** 정규화 박스(0~1)와 라벨로 갱신. */

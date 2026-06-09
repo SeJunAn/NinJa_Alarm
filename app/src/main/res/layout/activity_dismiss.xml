@@ -83,4 +83,14 @@
             android:textSize="13sp" />
     </LinearLayout>
 
+    <!-- 시그니처: 해제 성공 시 인장이 쾅 찍히는 스탬프 모션 (평소 GONE) -->
+    <com.ninja.alarm.ui.common.StampView
+        android:id="@+id/stampView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

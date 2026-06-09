@@ -15,6 +15,7 @@ import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.ninja.alarm.R;
 import com.ninja.alarm.model.UserProfile;
 import com.ninja.alarm.repository.Repositories;
+import com.ninja.alarm.util.AppPrefs;
 
 /**
  * 프로필/레벨 — 닉네임·칭호·레벨·경험치 바. 통계/튜토리얼 진입. (지시서 Phase 1 #9)
@@ -39,12 +40,23 @@ public class ProfileFragment extends Fragment {
         ((TextView) view.findViewById(R.id.profileLevel))
                 .setText(getString(R.string.profile_level, profile.currentLevel));
 
+        boolean animate = !AppPrefs.isReduceMotion(requireContext());
+
         LinearProgressIndicator expBar = view.findViewById(R.id.expBar);
         expBar.setMax(100);
-        expBar.setProgress(profile.progressPercent());
+        // setProgressCompat 가 채움을 애니메이션한다(모션 줄이기 시 즉시 표시).
+        expBar.setProgressCompat(profile.progressPercent(), animate);
 
         ((TextView) view.findViewById(R.id.expText))
                 .setText(getString(R.string.profile_exp, profile.expIntoLevel, profile.expForLevel));
+
+        // 레벨업 느낌의 가벼운 칭호 팝
+        if (animate) {
+            View title = view.findViewById(R.id.profileTitle);
+            title.setScaleX(0.8f);
+            title.setScaleY(0.8f);
+            title.animate().scaleX(1f).scaleY(1f).setStartDelay(150).setDuration(300).start();
+        }
 
         view.findViewById(R.id.openStatsButton).setOnClickListener(v ->
                 startActivity(new Intent(requireContext(), StatsActivity.class)));

@@ -50,6 +50,7 @@
     <string name="dismiss_retry">인을 순서대로 다시 맺으세요</string>
     <string name="dismiss_success">해제 성공! 알람을 껐어요</string>
     <string name="dismiss_loading">술법을 준비하는 중…</string>
+    <string name="cd_time_left">남은 시간 %1$d초</string>
 
     <!-- 술법 도감 -->
     <string name="sequence_title">술법 도감</string>
