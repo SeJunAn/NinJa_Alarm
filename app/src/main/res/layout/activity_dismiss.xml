@@ -17,6 +17,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- 검출 박스/라벨 오버레이 -->
+    <com.ninja.alarm.ui.common.DetectionOverlayView
+        android:id="@+id/overlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/previewView"
+        app:layout_constraintEnd_toEndOf="@id/previewView"
+        app:layout_constraintStart_toStartOf="@id/previewView"
+        app:layout_constraintTop_toTopOf="@id/previewView" />
+
     <TextView
         android:id="@+id/statusText"
         android:layout_width="wrap_content"
@@ -30,7 +40,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- 해제 계획(술법) 안내 패널 — Phase 2 에서 시퀀스 진행 뷰·카운트다운 링으로 대체 -->
+    <com.ninja.alarm.ui.common.CountdownRingView
+        android:id="@+id/countdownRing"
+        android:layout_width="84dp"
+        android:layout_height="84dp"
+        android:layout_margin="@dimen/space_lg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- 해제 계획 + 시퀀스 진행 패널 -->
     <LinearLayout
         android:id="@+id/planPanel"
         android:layout_width="0dp"
@@ -49,14 +67,11 @@
             android:textAppearance="?attr/textAppearanceTitleLarge"
             tools:text="분신술 · 하급" />
 
-        <TextView
-            android:id="@+id/planSeals"
-            android:layout_width="wrap_content"
+        <com.ninja.alarm.ui.common.SequenceProgressView
+            android:id="@+id/progressView"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_xs"
-            android:textAppearance="@style/TextAppearance.Ninja.Kanji"
-            android:textColor="@color/shinobi"
-            tools:text="① 未  ② 巳  ③ 寅" />
+            android:layout_marginTop="@dimen/space_sm" />
 
         <TextView
             android:id="@+id/planHint"

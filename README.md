@@ -3,7 +3,7 @@
 손으로 인(印)을 맺어야 꺼지는 닌자 알람 앱. 본 저장소는 작업지시서
 `NinJa_Alarm_UI-AI_작업지시서.md` 의 **UI·AI 파트**를 구현한다.
 
-> **현재 진행 단계: Phase 0 (셋업 & 뼈대) · Phase 1 (UI 화면 — Fake 데이터) 완료.**
+> **현재 진행 단계: Phase 0 (뼈대) · Phase 1 (화면) · Phase 2 (손동작 인식) 완료.**
 
 ---
 
@@ -38,10 +38,10 @@ com.ninja.alarm
 │   ├─ tutorial/  TutorialActivity, SealAdapter
 │   ├─ profile/   ProfileFragment, StatsActivity
 │   ├─ settings/  SettingsActivity
-│   ├─ dismiss/   DismissActivity (카메라 인식 — 기존 YOLOX 흐름 보존)
-│   ├─ common/    PlaceholderActivity (미구현 화면 공용 스텁)
+│   ├─ dismiss/   DismissActivity (카메라 인식 통합)
+│   ├─ common/    PlaceholderActivity + 커스텀 뷰(CountdownRing·SequenceProgress·DetectionOverlay)
 │   └─ HomeActivity (하단 내비 셸)
-├─ ml/            YoloxDetector, Labels (ONNX 추론기)
+├─ ml/            YoloxDetector·Labels(ONNX) + SealRecognizer·SequenceMatcher·SealResult·리스너
 ├─ repository/    인터페이스 5종 + Repositories(DI 지점)
 │   └─ fake/      Fake* 구현 + SealData(12간지)·jutsu 시드
 ├─ model/         Seal/Sequence/Alarm/UserProfile/Stats/DismissPlan/Difficulty …
@@ -96,11 +96,27 @@ com.ninja.alarm
 
 ---
 
+## Phase 2 산출물 (손동작 인식)
+
+`ml/` 에 인식 파이프라인을 두고 해제 화면에 통합했다 (지시서 결정대로 **YOLOX 유지**).
+
+- **파이프라인:** CameraX → `SealRecognizer`(YOLOX ONNX 래핑, 최상위 검출→`SealResult`)
+  → `SequenceMatcher`(디바운스 + step_order 순서 검증) → 성공/타임아웃 콜백
+- **SequenceMatcher** (순수 로직, Android 비의존): 동일 인이 신뢰도 임계값으로 연속 5프레임
+  유지될 때 확정, 기대 인과 일치하면 다음 단계·불일치는 무시. **단위 테스트 5케이스** 포함
+  (`app/src/test/.../SequenceMatcherTest`)
+- **커스텀 뷰(`ui/common/`):** `CountdownRingView`(제한시간 링), `SequenceProgressView`(①②③ 진행),
+  `DetectionOverlayView`(검출 박스/라벨)
+- **해제 흐름:** 해제 계획(`DismissPlan`)의 인을 순서대로 맺으면 성공 → `DismissRepository`에
+  결과 기록 후 종료, `time_limit` 초과 시 재시도 카피 + 재시작. 추론은 워커 스레드, UI 갱신은 메인.
+
+> 인식 정확도(2e)는 기존 YOLOX 모델 그대로 사용. 데이터/튜닝은 별도 작업.
+
+---
+
 ## 다음 단계 (예정)
-- **Phase 2:** 해제 화면에 `SealClassifier`(기존 YOLOX 래핑) + `SequenceMatcher` 상태머신,
-  랜드마크/박스 오버레이, 카운트다운(`time_limit`) 연동, 성공/타임아웃 콜백
-- **Phase 3:** 인장(印) 스탬프 성공 모션 등 시그니처 애니메이션, BE 실연동 교체,
-  접근성·**모션 줄이기 옵션 존중**(`AppPrefs.isReduceMotion`)
+- **Phase 3:** 인장(印) 스탬프 성공 모션 + 먹 번짐(시그니처), 단계 확정 펄스·레벨업 모션,
+  BE 실연동 교체(DI 지점), 접근성·**모션 줄이기 옵션 존중**(`AppPrefs.isReduceMotion`)
 
 ## 경계 (BE 담당 — 김동환)
 Room/SQLite, AlarmManager 스케줄링, 인증/서버는 구현하지 않는다.
