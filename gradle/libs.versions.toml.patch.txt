@@ -1,0 +1,8 @@
+# 기존 gradle/libs.versions.toml에 아래 항목을 추가/수정하세요.
+
+[versions]
+room = "2.8.4"
+
+[libraries]
+androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
