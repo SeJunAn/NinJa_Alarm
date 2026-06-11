@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    세로 스택(툴바 · 콘텐츠 · 하단 내비)으로 두어 프래그먼트 영역이 하단 내비와
+    겹치지 않게 한다. (FAB 가 내비 바에 가려지는 문제 방지)
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/sumi"
+    android:orientation="vertical"
+    tools:context=".ui.HomeActivity">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/topAppBar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/sumi"
+        app:menu="@menu/menu_home"
+        app:title="@string/alarm_title"
+        app:titleTextColor="@color/washi" />
+
+    <FrameLayout
+        android:id="@+id/fragmentContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/kuro"
+        app:menu="@menu/menu_bottom_nav" />
+
+</LinearLayout>

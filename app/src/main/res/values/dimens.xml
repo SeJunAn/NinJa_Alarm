@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 간격: 8dp 그리드 (지시서 6.4) -->
+    <dimen name="space_xs">4dp</dimen>
+    <dimen name="space_sm">8dp</dimen>
+    <dimen name="space_md">12dp</dimen>
+    <dimen name="space_lg">16dp</dimen>
+    <dimen name="space_xl">24dp</dimen>
+    <dimen name="space_xxl">32dp</dimen>
+
+    <!-- 라운드: 카드 8~12dp -->
+    <dimen name="radius_sm">8dp</dimen>
+    <dimen name="radius_md">12dp</dimen>
+
+    <!-- 외곽선/구분선 -->
+    <dimen name="stroke_width">1dp</dimen>
+
+    <!-- 공통 컴포넌트 -->
+    <dimen name="card_elevation">0dp</dimen>
+    <dimen name="touch_min">48dp</dimen>
+    <dimen name="logo_splash">160dp</dimen>
+</resources>

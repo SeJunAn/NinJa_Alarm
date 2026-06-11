@@ -1,9 +1,112 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.MyApplication" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+    <!--
+        NinJa Alarm 테마 — "먹과 인장(印)".
+        브랜드는 검정(먹) 배경 고정이므로 시스템 설정과 무관하게 다크로 통일한다.
+        (values-night 는 동일 값을 미러링)
+    -->
+    <style name="Base.Theme.NinjaAlarm" parent="Theme.Material3.Dark.NoActionBar">
+        <!-- 강조/CTA -->
+        <item name="colorPrimary">@color/shinobi</item>
+        <item name="colorOnPrimary">@color/sumi</item>
+        <item name="colorPrimaryContainer">@color/hi</item>
+        <item name="colorOnPrimaryContainer">@color/washi</item>
+
+        <!-- 보조(성공 계열) -->
+        <item name="colorSecondary">@color/seikou</item>
+        <item name="colorOnSecondary">@color/sumi</item>
+
+        <!-- 배경/표면 -->
+        <item name="android:colorBackground">@color/sumi</item>
+        <item name="colorOnBackground">@color/washi</item>
+        <item name="colorSurface">@color/kuro</item>
+        <item name="colorOnSurface">@color/washi</item>
+        <item name="colorSurfaceVariant">@color/kuro_elevated</item>
+        <item name="colorOnSurfaceVariant">@color/kasumi</item>
+        <item name="colorOutline">@color/stroke</item>
+
+        <!-- 오류/실패 -->
+        <item name="colorError">@color/shippai</item>
+        <item name="colorOnError">@color/washi</item>
+
+        <!-- 시스템 바 -->
+        <item name="android:statusBarColor">@color/sumi</item>
+        <item name="android:navigationBarColor">@color/sumi</item>
+
+        <!-- 타이포 토큰 -->
+        <item name="textAppearanceDisplaySmall">@style/TextAppearance.Ninja.Display</item>
+        <item name="textAppearanceTitleLarge">@style/TextAppearance.Ninja.Title</item>
+        <item name="textAppearanceBodyLarge">@style/TextAppearance.Ninja.Body</item>
+        <item name="textAppearanceLabelLarge">@style/TextAppearance.Ninja.Label</item>
     </style>
 
-    <style name="Theme.MyApplication" parent="Base.Theme.MyApplication" />
+    <style name="Theme.NinjaAlarm" parent="Base.Theme.NinjaAlarm" />
+
+    <!-- 스플래시: 투명 상태바, 콘텐츠 가운데 -->
+    <style name="Theme.NinjaAlarm.Splash" parent="Theme.NinjaAlarm">
+        <item name="android:windowBackground">@color/sumi</item>
+    </style>
+
+    <!--
+        타이포그래피 토큰 (지시서 6.3)
+        TODO(폰트): 라이선스 확인 후 res/font/ 에 추가해
+          - Display/술법명: 브러시·슬랩 서체
+          - 간지 한자: Noto Serif KR (명조)
+          - Body/UI: Pretendard
+        를 fontFamily 로 연결한다. 현재는 시스템 서체로 토큰만 정의.
+    -->
+    <style name="TextAppearance.Ninja.Display" parent="TextAppearance.Material3.DisplaySmall">
+        <item name="android:textColor">@color/washi</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:letterSpacing">0.01</item>
+    </style>
+
+    <style name="TextAppearance.Ninja.Title" parent="TextAppearance.Material3.TitleLarge">
+        <item name="android:textColor">@color/washi</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.Ninja.Body" parent="TextAppearance.Material3.BodyLarge">
+        <item name="android:textColor">@color/washi</item>
+    </style>
+
+    <style name="TextAppearance.Ninja.Label" parent="TextAppearance.Material3.LabelLarge">
+        <item name="android:textColor">@color/washi_dim</item>
+    </style>
+
+    <!-- 간지 한자(子丑寅…): 명조 계열 -->
+    <style name="TextAppearance.Ninja.Kanji" parent="TextAppearance.Material3.HeadlineMedium">
+        <item name="android:fontFamily">serif</item>
+        <item name="android:textColor">@color/washi</item>
+    </style>
+
+    <!-- 주요 CTA 버튼 -->
+    <style name="Widget.Ninja.Button" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/shinobi</item>
+        <item name="android:textColor">@color/sumi</item>
+        <item name="cornerRadius">@dimen/radius_sm</item>
+    </style>
+
+    <!-- 설정 화면 행 -->
+    <style name="SettingsRow">
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:minHeight">@dimen/touch_min</item>
+        <item name="android:paddingLeft">@dimen/space_lg</item>
+        <item name="android:paddingRight">@dimen/space_lg</item>
+        <item name="android:paddingTop">@dimen/space_md</item>
+        <item name="android:paddingBottom">@dimen/space_md</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+
+    <!-- 카드 -->
+    <style name="Widget.Ninja.Card" parent="Widget.Material3.CardView.Filled">
+        <item name="cardBackgroundColor">@color/kuro</item>
+        <item name="cardCornerRadius">@dimen/radius_md</item>
+        <item name="cardElevation">@dimen/card_elevation</item>
+        <item name="strokeColor">@color/stroke</item>
+        <item name="strokeWidth">@dimen/stroke_width</item>
+    </style>
 </resources>

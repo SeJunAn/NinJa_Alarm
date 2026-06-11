@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Widget.Ninja.Card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="@dimen/space_lg"
+    android:layout_marginVertical="@dimen/space_sm"
+    android:checkable="false"
+    android:clickable="true"
+    android:focusable="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/space_lg">
+
+        <TextView
+            android:id="@+id/alarmTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceDisplaySmall"
+            android:textColor="@color/washi"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="07:00" />
+
+        <TextView
+            android:id="@+id/alarmDays"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_xs"
+            android:textAppearance="?attr/textAppearanceLabelLarge"
+            android:textColor="@color/kasumi"
+            app:layout_constraintEnd_toStartOf="@id/alarmSwitch"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/alarmTime"
+            tools:text="주중 · 기상" />
+
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/alarmSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/cd_alarm_toggle"
+            app:layout_constraintBottom_toBottomOf="@id/alarmTime"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/alarmTime" />
+
+        <TextView
+            android:id="@+id/alarmDifficulty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_md"
+            android:background="@drawable/bg_badge"
+            android:paddingLeft="@dimen/space_sm"
+            android:paddingRight="@dimen/space_sm"
+            android:paddingTop="@dimen/space_xs"
+            android:paddingBottom="@dimen/space_xs"
+            android:textColor="@color/sumi"
+            android:textStyle="bold"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/alarmDays"
+            tools:text="하급" />
+
+        <TextView
+            android:id="@+id/alarmSequence"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/space_sm"
+            android:gravity="center_vertical"
+            android:textAppearance="?attr/textAppearanceBodyLarge"
+            android:textColor="@color/washi"
+            app:layout_constraintBottom_toBottomOf="@id/alarmDifficulty"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/alarmDifficulty"
+            app:layout_constraintTop_toTopOf="@id/alarmDifficulty"
+            tools:text="분신술" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

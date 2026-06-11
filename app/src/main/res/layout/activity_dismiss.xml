@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dismiss_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/sumi"
+    tools:context=".ui.dismiss.DismissActivity">
+
+    <androidx.camera.view.PreviewView
+        android:id="@+id/previewView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- 검출 박스/라벨 오버레이 -->
+    <com.ninja.alarm.ui.common.DetectionOverlayView
+        android:id="@+id/overlay"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@id/previewView"
+        app:layout_constraintEnd_toEndOf="@id/previewView"
+        app:layout_constraintStart_toStartOf="@id/previewView"
+        app:layout_constraintTop_toTopOf="@id/previewView" />
+
+    <TextView
+        android:id="@+id/statusText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/space_lg"
+        android:background="@color/scrim"
+        android:padding="@dimen/space_sm"
+        android:text="@string/dismiss_hint"
+        android:textColor="@color/washi"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.ninja.alarm.ui.common.CountdownRingView
+        android:id="@+id/countdownRing"
+        android:layout_width="84dp"
+        android:layout_height="84dp"
+        android:layout_margin="@dimen/space_lg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- 해제 계획 + 시퀀스 진행 패널 -->
+    <LinearLayout
+        android:id="@+id/planPanel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/scrim"
+        android:orientation="vertical"
+        android:padding="@dimen/space_lg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/planTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceTitleLarge"
+            tools:text="분신술 · 하급" />
+
+        <com.ninja.alarm.ui.common.SequenceProgressView
+            android:id="@+id/progressView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_sm" />
+
+        <TextView
+            android:id="@+id/planHint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_xs"
+            android:text="@string/dismiss_hint"
+            android:textColor="@color/washi_dim"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <!-- 시그니처: 해제 성공 시 인장이 쾅 찍히는 스탬프 모션 (평소 GONE) -->
+    <com.ninja.alarm.ui.common.StampView
+        android:id="@+id/stampView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
