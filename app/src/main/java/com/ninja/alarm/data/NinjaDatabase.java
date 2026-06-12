@@ -94,8 +94,9 @@ public abstract class NinjaDatabase extends RoomDatabase {
         db.execSQL("INSERT OR IGNORE INTO seals(seal_id, name, zodiac, display_order, image_uri) VALUES (12, '멧돼지', '亥', 12, NULL)");
 
         // default local user
+        // exp=520 → RoomMappers 성장표 기준 레벨3·상급닌자·구간진행 220/400 으로 일관됨.
         db.execSQL("INSERT OR IGNORE INTO users(user_id, email, nickname, password_hash, password_salt, exp, current_level, title, created_at, updated_at) " +
-                "VALUES (1, 'local@ninja.alarm', '그림자', NULL, NULL, 1340, 7, '중급닌자', " + now + ", " + now + ")");
+                "VALUES (1, 'local@ninja.alarm', '그림자', NULL, NULL, 520, 3, '상급닌자', " + now + ", " + now + ")");
 
         // preset sequences: FakeSequenceRepository와 동일한 6종
         insertSequence(db, 1, "분신술", "Clone Jutsu", "HAGEUP", now, new int[]{8, 6, 3});

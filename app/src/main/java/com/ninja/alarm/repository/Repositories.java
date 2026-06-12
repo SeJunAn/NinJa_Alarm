@@ -8,6 +8,7 @@ import com.ninja.alarm.repository.fake.FakeSequenceRepository;
 import com.ninja.alarm.repository.fake.FakeTutorialRepository;
 import com.ninja.alarm.repository.fake.FakeUserRepository;
 import com.ninja.alarm.repository.room.RoomAlarmRepository;
+import com.ninja.alarm.repository.room.RoomAuthRepository;
 import com.ninja.alarm.repository.room.RoomDismissRepository;
 import com.ninja.alarm.repository.room.RoomSequenceRepository;
 import com.ninja.alarm.repository.room.RoomTutorialRepository;
@@ -20,6 +21,12 @@ import com.ninja.alarm.repository.room.RoomUserRepository;
  * Application에서 Repositories.init(appContext)를 먼저 호출해야 한다.
  */
 public final class Repositories {
+    /**
+     * @deprecated "현재 사용자"는 로그인 세션에 따라 달라지므로
+     * {@link com.ninja.alarm.util.Session#userId(android.content.Context)} 를 사용하라.
+     * 이 상수는 시드 게스트 id(=Session.GUEST_USER_ID)와 동일한 호환용 값일 뿐이다.
+     */
+    @Deprecated
     public static final long CURRENT_USER_ID = 1L;
     private static Context appContext;
 
@@ -28,6 +35,7 @@ public final class Repositories {
     private static DismissRepository dismiss;
     private static TutorialRepository tutorial;
     private static UserRepository user;
+    private static AuthRepository auth;
 
     private Repositories() {}
 
@@ -40,6 +48,7 @@ public final class Repositories {
         dismiss = null;
         tutorial = null;
         user = null;
+        auth = null;
     }
 
     private static Context requireContext() {
@@ -95,5 +104,12 @@ public final class Repositories {
             // user = new FakeUserRepository();
         }
         return user;
+    }
+
+    public static synchronized AuthRepository auth() {
+        if (auth == null) {
+            auth = new RoomAuthRepository(requireContext());
+        }
+        return auth;
     }
 }

@@ -8,6 +8,8 @@ import android.os.Looper;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.ninja.alarm.R;
+import com.ninja.alarm.ui.HomeActivity;
+import com.ninja.alarm.util.Session;
 
 /**
  * 스플래시 — 印 로고를 짧게 보여준 뒤 로그인으로 자동 전환한다. (지시서 Phase 1 #1)
@@ -25,7 +27,9 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         handler.postDelayed(() -> {
-            startActivity(new Intent(this, LoginActivity.class));
+            // 이미 로그인(또는 게스트) 세션이 있으면 바로 홈, 아니면 로그인 화면으로.
+            Class<?> next = Session.isLoggedIn(this) ? HomeActivity.class : LoginActivity.class;
+            startActivity(new Intent(this, next));
             finish();
         }, SPLASH_DELAY_MS);
     }

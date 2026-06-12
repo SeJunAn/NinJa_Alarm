@@ -16,6 +16,7 @@ import com.ninja.alarm.R;
 import com.ninja.alarm.model.UserProfile;
 import com.ninja.alarm.repository.Repositories;
 import com.ninja.alarm.util.AppPrefs;
+import com.ninja.alarm.util.Session;
 
 /**
  * 프로필/레벨 — 닉네임·칭호·레벨·경험치 바. 통계/튜토리얼 진입. (지시서 Phase 1 #9)
@@ -33,7 +34,7 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        UserProfile profile = Repositories.user().getProfile(Repositories.CURRENT_USER_ID);
+        UserProfile profile = Repositories.user().getProfile(Session.userId(requireContext()));
 
         ((TextView) view.findViewById(R.id.profileNickname)).setText(profile.nickname);
         ((TextView) view.findViewById(R.id.profileTitle)).setText(profile.title);

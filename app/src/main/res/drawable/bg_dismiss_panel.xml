@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 하단 해제 계획 패널: 상단만 둥근 표면 + 얇은 주색 상단 라인 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/dismiss_panel_bg" />
+    <stroke
+        android:width="1dp"
+        android:color="@color/stroke" />
+    <corners
+        android:topLeftRadius="@dimen/radius_lg"
+        android:topRightRadius="@dimen/radius_lg" />
+</shape>

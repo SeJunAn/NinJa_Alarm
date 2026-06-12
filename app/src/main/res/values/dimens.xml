@@ -11,6 +11,12 @@
     <!-- 라운드: 카드 8~12dp -->
     <dimen name="radius_sm">8dp</dimen>
     <dimen name="radius_md">12dp</dimen>
+    <dimen name="radius_lg">20dp</dimen>
+    <dimen name="radius_pill">999dp</dimen>
+
+    <!-- 해제 화면 -->
+    <dimen name="dismiss_reticle">260dp</dimen>
+    <dimen name="dismiss_scrim_height">140dp</dimen>
 
     <!-- 외곽선/구분선 -->
     <dimen name="stroke_width">1dp</dimen>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 중앙 조준 가이드: 손을 맞추도록 안내하는 둥근 사각 프레임 (투명 채움 + 주색 외곽) -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/transparent" />
+    <stroke
+        android:width="2dp"
+        android:color="@color/reticle_stroke" />
+    <corners android:radius="@dimen/radius_lg" />
+</shape>

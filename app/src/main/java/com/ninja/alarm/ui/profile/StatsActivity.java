@@ -11,6 +11,7 @@ import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.ninja.alarm.R;
 import com.ninja.alarm.model.Stats;
 import com.ninja.alarm.repository.Repositories;
+import com.ninja.alarm.util.Session;
 
 /**
  * 통계 — 성공률·평균 소요·실패 횟수·총 시도. (지시서 Phase 1 #10)
@@ -25,7 +26,7 @@ public class StatsActivity extends AppCompatActivity {
         MaterialToolbar toolbar = findViewById(R.id.topAppBar);
         toolbar.setNavigationOnClickListener(v -> finish());
 
-        Stats stats = Repositories.dismiss().getStats(Repositories.CURRENT_USER_ID);
+        Stats stats = Repositories.dismiss().getStats(Session.userId(this));
 
         boolean empty = stats.totalAttempts <= 0;
         findViewById(R.id.statsEmpty).setVisibility(empty ? View.VISIBLE : View.GONE);

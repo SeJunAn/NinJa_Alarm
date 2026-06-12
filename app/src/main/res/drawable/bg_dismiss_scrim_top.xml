@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 상단 가독성용 그라데이션: 위(먹 70%) → 아래(투명) -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <gradient
+        android:angle="270"
+        android:startColor="@color/dismiss_scrim"
+        android:endColor="@color/transparent" />
+</shape>

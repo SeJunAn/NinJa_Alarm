@@ -100,33 +100,49 @@ public final class RoomMappers {
         return new Stats(row.totalAttempts, row.successCount, row.failCount, row.avgDurationSec);
     }
 
+    /**
+     * 레벨별 누적 경험치 경계. index i 는 (i+1)레벨 진입에 필요한 누적 exp 다.
+     * 표 범위를 넘어가면 마지막 간격(LEVEL_STEP)으로 외삽한다.
+     * 레벨·칭호·진행도는 모두 이 표(=exp)에서만 파생되므로 서로 어긋날 수 없다.
+     */
+    private static final int[] LEVEL_FLOORS = {0, 100, 300, 700, 1200, 1800, 2500};
+    private static final int LEVEL_STEP = 800;
+
+    /** 1-based 레벨의 누적 경험치 하한. */
+    private static int floorForLevel(int level) {
+        if (level < 1) level = 1;
+        if (level <= LEVEL_FLOORS.length) return LEVEL_FLOORS[level - 1];
+        int last = LEVEL_FLOORS[LEVEL_FLOORS.length - 1];
+        return last + (level - LEVEL_FLOORS.length) * LEVEL_STEP;
+    }
+
     public static UserProfile toProfile(UserEntity user) {
-        if (user == null) {
-            return new UserProfile("그림자", 0, 1, "하급닌자", 0, 100);
-        }
-        int expForLevel = 500;
-        int expIntoLevel = Math.max(0, user.exp % expForLevel);
-        return new UserProfile(
-                user.nickname,
-                user.exp,
-                user.currentLevel,
-                user.title,
-                expIntoLevel,
-                expForLevel
-        );
+        // 저장된 level/title 컬럼이 아니라 exp 를 단일 소스로 삼아 파생한다.
+        // (시드/마이그레이션으로 컬럼이 틀어져도 화면 표시는 항상 일관됨)
+        String nickname = user == null ? "그림자" : user.nickname;
+        int exp = user == null ? 0 : user.exp;
+
+        int level = levelForExp(exp);
+        int floor = floorForLevel(level);
+        int nextFloor = floorForLevel(level + 1);
+        int expIntoLevel = Math.max(0, exp - floor);
+        int expForLevel = Math.max(1, nextFloor - floor);
+
+        return new UserProfile(nickname, exp, level, titleForExp(exp), expIntoLevel, expForLevel);
     }
 
     public static String titleForExp(int exp) {
-        if (exp >= 700) return "카게급";
-        if (exp >= 300) return "상급닌자";
-        if (exp >= 100) return "중급닌자";
+        int level = levelForExp(exp);
+        if (level >= 4) return "카게급";
+        if (level >= 3) return "상급닌자";
+        if (level >= 2) return "중급닌자";
         return "하급닌자";
     }
 
     public static int levelForExp(int exp) {
-        if (exp < 100) return 1;
-        if (exp < 300) return 2;
-        if (exp < 700) return 3;
-        return Math.max(4, 4 + ((exp - 700) / 300));
+        if (exp <= 0) return 1;
+        int level = 1;
+        while (exp >= floorForLevel(level + 1)) level++;
+        return level;
     }
 }

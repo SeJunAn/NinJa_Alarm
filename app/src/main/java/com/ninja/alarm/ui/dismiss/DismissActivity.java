@@ -67,6 +67,7 @@ public class DismissActivity extends AppCompatActivity implements SealRecognitio
     private static final float CONF_TH = 0.5f;      // 확정 신뢰도 임계값
     private static final int DEBOUNCE_FRAMES = 5;   // 연속 N프레임(≈0.3초)
     private static final long DEFAULT_LIMIT_MS = 10_000L;
+    private static final boolean USE_FRONT_CAMERA = true; // 셀프뷰로 인을 맺을 수 있게 전면 카메라 사용
 
     public static final String EXTRA_ALARM_ID = "extra_alarm_id";
     public static final String EXTRA_SEQUENCE_ID = "extra_sequence_id";
@@ -114,6 +115,7 @@ public class DismissActivity extends AppCompatActivity implements SealRecognitio
         previewView = findViewById(R.id.previewView);
         statusText = findViewById(R.id.statusText);
         overlay = findViewById(R.id.overlay);
+        overlay.setMirror(USE_FRONT_CAMERA); // 전면 카메라 프리뷰 반전에 박스 정렬을 맞춤
         countdownRing = findViewById(R.id.countdownRing);
         progressView = findViewById(R.id.progressView);
         stampView = findViewById(R.id.stampView);
@@ -265,8 +267,11 @@ public class DismissActivity extends AppCompatActivity implements SealRecognitio
                         .build();
                 analysis.setAnalyzer(analysisExecutor, this::onFrame);
 
+                CameraSelector selector = USE_FRONT_CAMERA
+                        ? CameraSelector.DEFAULT_FRONT_CAMERA
+                        : CameraSelector.DEFAULT_BACK_CAMERA;
                 provider.unbindAll();
-                provider.bindToLifecycle(this, CameraSelector.DEFAULT_BACK_CAMERA, preview, analysis);
+                provider.bindToLifecycle(this, selector, preview, analysis);
             } catch (Exception e) {
                 Log.e(TAG, "camera start failed", e);
             }
