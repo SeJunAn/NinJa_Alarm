@@ -13,6 +13,7 @@ import com.ninja.alarm.R;
 import com.ninja.alarm.model.Seal;
 import com.ninja.alarm.model.SealProgress;
 import com.ninja.alarm.repository.Repositories;
+import com.ninja.alarm.util.Session;
 
 import java.util.HashSet;
 import java.util.List;
@@ -49,7 +50,7 @@ public class TutorialActivity extends AppCompatActivity implements SealAdapter.L
         total = seals.size();
 
         Set<Integer> completed = new HashSet<>();
-        for (SealProgress p : Repositories.tutorial().getProgress(Repositories.CURRENT_USER_ID)) {
+        for (SealProgress p : Repositories.tutorial().getProgress(Session.userId(this))) {
             if (p.completed) completed.add(p.sealId);
         }
 
@@ -59,10 +60,10 @@ public class TutorialActivity extends AppCompatActivity implements SealAdapter.L
 
     @Override
     public void onToggle(int sealId, boolean completed) {
-        Repositories.tutorial().markCompleted(Repositories.CURRENT_USER_ID, sealId, completed);
+        Repositories.tutorial().markCompleted(Session.userId(this), sealId, completed);
         // 저장소에서 최신 완료 수를 다시 계산
         int done = 0;
-        for (SealProgress p : Repositories.tutorial().getProgress(Repositories.CURRENT_USER_ID)) {
+        for (SealProgress p : Repositories.tutorial().getProgress(Session.userId(this))) {
             if (p.completed) done++;
         }
         updateProgress(done);

@@ -22,6 +22,7 @@ public class DetectionOverlayView extends View {
     private final Paint labelText = new Paint(Paint.ANTI_ALIAS_FLAG);
 
     private boolean hasBox = false;
+    private boolean mirror = false;         // 전면 카메라 프리뷰(좌우 반전)에 박스 정렬을 맞춤
     private float left, top, right, bottom; // 0~1
     private String label = "";
 
@@ -66,14 +67,22 @@ public class DetectionOverlayView extends View {
         invalidate();
     }
 
+    /** 전면 카메라처럼 프리뷰가 좌우 반전될 때 박스 X 좌표도 반전해 정렬을 맞춘다. */
+    public void setMirror(boolean mirror) {
+        this.mirror = mirror;
+        invalidate();
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if (!hasBox) return;
 
-        float l = left * getWidth();
+        float w = getWidth();
+        // 미러일 때 [left,right] → [1-right, 1-left] 로 X 를 뒤집는다.
+        float l = (mirror ? (1 - right) : left) * w;
+        float r = (mirror ? (1 - left) : right) * w;
         float t = top * getHeight();
-        float r = right * getWidth();
         float b = bottom * getHeight();
         canvas.drawRect(l, t, r, b, boxPaint);
 

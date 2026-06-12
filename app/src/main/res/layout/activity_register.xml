@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/sumi"
     android:fillViewport="true"
-    tools:context=".ui.auth.LoginActivity">
+    tools:context=".ui.auth.RegisterActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,28 +15,12 @@
         android:gravity="center_vertical"
         android:padding="@dimen/space_xl">
 
-        <ImageView
-            android:layout_width="72dp"
-            android:layout_height="72dp"
-            android:layout_marginBottom="@dimen/space_lg"
-            android:src="@drawable/ic_scroll"
-            app:tint="@color/shinobi"
-            android:contentDescription="@string/app_name" />
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/login_title"
-            android:textAppearance="?attr/textAppearanceDisplaySmall" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_xs"
             android:layout_marginBottom="@dimen/space_xl"
-            android:text="@string/login_subtitle"
-            android:textColor="@color/kasumi"
-            android:textSize="14sp" />
+            android:text="@string/register_title"
+            android:textAppearance="?attr/textAppearanceDisplaySmall" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/emailLayout"
@@ -50,6 +34,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/nicknameLayout"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_md"
+            android:hint="@string/login_nickname_hint">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/nicknameInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="text"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -70,29 +70,39 @@
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/passwordConfirmLayout"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_md"
+            android:hint="@string/register_password_confirm_hint"
+            app:endIconMode="password_toggle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/passwordConfirmInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:imeOptions="actionDone" />
+        </com.google.android.material.textfield.TextInputLayout>
+
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/enterButton"
+            android:id="@+id/registerButton"
             style="@style/Widget.Ninja.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_xl"
-            android:text="@string/login_enter" />
+            android:text="@string/register_submit" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/signupButton"
+            android:id="@+id/backToLoginButton"
             style="@style/Widget.Material3.Button.TextButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_sm"
-            android:text="@string/login_signup"
-            android:textColor="@color/washi" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/guestButton"
-            style="@style/Widget.Material3.Button.TextButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/login_guest"
+            android:text="@string/register_have_account"
             android:textColor="@color/kasumi" />
 
     </LinearLayout>

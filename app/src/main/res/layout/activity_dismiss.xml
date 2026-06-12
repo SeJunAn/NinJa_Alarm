@@ -27,57 +27,116 @@
         app:layout_constraintStart_toStartOf="@id/previewView"
         app:layout_constraintTop_toTopOf="@id/previewView" />
 
+    <!-- 상단 가독성용 그라데이션 스크림 -->
+    <View
+        android:id="@+id/scrimTop"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dismiss_scrim_height"
+        android:background="@drawable/bg_dismiss_scrim_top"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- 중앙 조준 가이드: 손을 맞추도록 안내 -->
+    <View
+        android:id="@+id/reticle"
+        android:layout_width="@dimen/dismiss_reticle"
+        android:layout_height="@dimen/dismiss_reticle"
+        android:background="@drawable/bg_dismiss_reticle"
+        app:layout_constraintBottom_toTopOf="@id/planPanel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.42" />
+
+    <TextView
+        android:id="@+id/frameGuide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_md"
+        android:text="@string/dismiss_frame_guide"
+        android:textColor="@color/washi_dim"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="@id/reticle"
+        app:layout_constraintStart_toStartOf="@id/reticle"
+        app:layout_constraintTop_toBottomOf="@id/reticle" />
+
+    <!-- 상단 우측: 카운트다운 링 -->
+    <com.ninja.alarm.ui.common.CountdownRingView
+        android:id="@+id/countdownRing"
+        android:layout_width="76dp"
+        android:layout_height="76dp"
+        android:layout_margin="@dimen/space_lg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- 상단 좌측: 현재 인식 상태 칩 -->
     <TextView
         android:id="@+id/statusText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/space_lg"
-        android:background="@color/scrim"
-        android:padding="@dimen/space_sm"
-        android:text="@string/dismiss_hint"
+        android:layout_marginStart="@dimen/space_lg"
+        android:layout_marginEnd="@dimen/space_md"
+        android:background="@drawable/bg_dismiss_pill"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:paddingStart="@dimen/space_md"
+        android:paddingEnd="@dimen/space_md"
+        android:paddingTop="@dimen/space_sm"
+        android:paddingBottom="@dimen/space_sm"
+        android:text="@string/dismiss_waiting"
         android:textColor="@color/washi"
-        android:textSize="16sp"
+        android:textSize="15sp"
+        app:layout_constrainedWidth="true"
+        app:layout_constraintBottom_toBottomOf="@id/countdownRing"
+        app:layout_constraintEnd_toStartOf="@id/countdownRing"
+        app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.ninja.alarm.ui.common.CountdownRingView
-        android:id="@+id/countdownRing"
-        android:layout_width="84dp"
-        android:layout_height="84dp"
-        android:layout_margin="@dimen/space_lg"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/countdownRing" />
 
     <!-- 해제 계획 + 시퀀스 진행 패널 -->
     <LinearLayout
         android:id="@+id/planPanel"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/scrim"
+        android:background="@drawable/bg_dismiss_panel"
         android:orientation="vertical"
-        android:padding="@dimen/space_lg"
+        android:paddingStart="@dimen/space_xl"
+        android:paddingEnd="@dimen/space_xl"
+        android:paddingTop="@dimen/space_lg"
+        android:paddingBottom="@dimen/space_xl"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
+
+        <!-- 잡이용 그립 인디케이터 -->
+        <View
+            android:layout_width="40dp"
+            android:layout_height="4dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/space_md"
+            android:background="@drawable/bg_dismiss_pill"
+            android:backgroundTint="@color/kuro_elevated" />
 
         <TextView
             android:id="@+id/planTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?attr/textAppearanceTitleLarge"
+            android:textColor="@color/washi"
             tools:text="분신술 · 하급" />
 
         <com.ninja.alarm.ui.common.SequenceProgressView
             android:id="@+id/progressView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_sm" />
+            android:layout_marginTop="@dimen/space_md" />
 
         <TextView
             android:id="@+id/planHint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/space_xs"
+            android:layout_marginTop="@dimen/space_sm"
             android:text="@string/dismiss_hint"
             android:textColor="@color/washi_dim"
             android:textSize="13sp" />

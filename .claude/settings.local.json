@@ -22,7 +22,16 @@
       "Bash(git add *)",
       "Bash(git commit *)",
       "PowerShell($env:JAVA_HOME = \"C:\\\\Program Files\\\\Android\\\\Android Studio\\\\jbr\"; & \"C:\\\\Users\\\\ipl1\\\\Desktop\\\\MyApplication\\\\gradlew.bat\" -p \"C:\\\\Users\\\\ipl1\\\\Desktop\\\\MyApplication\" assembleDebug testDebugUnitTest lintDebug --console=plain 2>&1 | Select-Object -Last 45)",
-      "PowerShell($env:JAVA_HOME = \"C:\\\\Program Files\\\\Android\\\\Android Studio\\\\jbr\"; & \"C:\\\\Users\\\\ipl1\\\\Desktop\\\\MyApplication\\\\gradlew.bat\" -p \"C:\\\\Users\\\\ipl1\\\\Desktop\\\\MyApplication\" assembleDebug testDebugUnitTest lintDebug --console=plain 2>&1 | Select-Object -Last 30)"
+      "PowerShell($env:JAVA_HOME = \"C:\\\\Program Files\\\\Android\\\\Android Studio\\\\jbr\"; & \"C:\\\\Users\\\\ipl1\\\\Desktop\\\\MyApplication\\\\gradlew.bat\" -p \"C:\\\\Users\\\\ipl1\\\\Desktop\\\\MyApplication\" assembleDebug testDebugUnitTest lintDebug --console=plain 2>&1 | Select-Object -Last 30)",
+      "PowerShell($env:JAVA_HOME = \"C:\\\\Program Files\\\\Android\\\\Android Studio\\\\jbr\"; .\\\\gradlew.bat compileDebugJavaWithJavac --console=plain 2>&1 | Select-Object -Last 60)",
+      "PowerShell($env:JAVA_HOME = \"C:\\\\Program Files\\\\Android\\\\Android Studio\\\\jbr\"; & \"C:\\\\Users\\\\ipl1\\\\Desktop\\\\MyApplication\\\\gradlew.bat\" -p \"C:\\\\Users\\\\ipl1\\\\Desktop\\\\MyApplication\" compileDebugJavaWithJavac --console=plain 2>&1 | Select-Object -Last 60)",
+      "Bash(cat values/colors.xml)",
+      "Bash(cat values/dimens.xml)",
+      "Bash(ls drawable *)",
+      "PowerShell($env:JAVA_HOME = \"C:\\\\Program Files\\\\Android\\\\Android Studio\\\\jbr\"; & \"C:\\\\Users\\\\ipl1\\\\Desktop\\\\MyApplication\\\\gradlew.bat\" -p \"C:\\\\Users\\\\ipl1\\\\Desktop\\\\MyApplication\" assembleDebug --console=plain 2>&1 | Select-Object -Last 40)",
+      "PowerShell($env:JAVA_HOME = \"C:\\\\Program Files\\\\Android\\\\Android Studio\\\\jbr\"; & \"C:\\\\Users\\\\ipl1\\\\Desktop\\\\MyApplication\\\\gradlew.bat\" -p \"C:\\\\Users\\\\ipl1\\\\Desktop\\\\MyApplication\" lintDebug --console=plain 2>&1 | Select-Object -Last 35)",
+      "PowerShell($env:JAVA_HOME = \"C:\\\\Program Files\\\\Android\\\\Android Studio\\\\jbr\"; & \"C:\\\\Users\\\\ipl1\\\\Desktop\\\\MyApplication\\\\gradlew.bat\" -p \"C:\\\\Users\\\\ipl1\\\\Desktop\\\\MyApplication\" assembleDebug lintDebug --console=plain 2>&1 | Select-Object -Last 45)",
+      "PowerShell($env:JAVA_HOME = \"C:\\\\Program Files\\\\Android\\\\Android Studio\\\\jbr\"; & \"C:\\\\Users\\\\ipl1\\\\Desktop\\\\MyApplication\\\\gradlew.bat\" -p \"C:\\\\Users\\\\ipl1\\\\Desktop\\\\MyApplication\" assembleDebug --console=plain 2>&1 | Select-Object -Last 8)"
     ]
   }
 }

@@ -21,4 +21,12 @@
 
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- 해제(카메라 인식) 화면용 반투명 토큰 -->
+    <color name="dismiss_scrim">#B30B0B0D</color>        <!-- 먹 70%: 상단 그라데이션 시작 -->
+    <color name="dismiss_scrim_strong">#F00B0B0D</color> <!-- 먹 94%: 하단 패널 바닥 -->
+    <color name="dismiss_panel_bg">#E616151A</color>     <!-- 흑 90%: 하단 패널 표면 -->
+    <color name="dismiss_pill_bg">#CC16151A</color>      <!-- 흑 80%: 상태 칩 표면 -->
+    <color name="reticle_stroke">#66FF5A1F</color>       <!-- 주색 40%: 중앙 조준 가이드 -->
+    <color name="transparent">#00000000</color>
 </resources>

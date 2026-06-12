@@ -1,54 +1,115 @@
 package com.ninja.alarm.repository;
 
+import android.content.Context;
+
 import com.ninja.alarm.repository.fake.FakeAlarmRepository;
 import com.ninja.alarm.repository.fake.FakeDismissRepository;
 import com.ninja.alarm.repository.fake.FakeSequenceRepository;
 import com.ninja.alarm.repository.fake.FakeTutorialRepository;
 import com.ninja.alarm.repository.fake.FakeUserRepository;
+import com.ninja.alarm.repository.room.RoomAlarmRepository;
+import com.ninja.alarm.repository.room.RoomAuthRepository;
+import com.ninja.alarm.repository.room.RoomDismissRepository;
+import com.ninja.alarm.repository.room.RoomSequenceRepository;
+import com.ninja.alarm.repository.room.RoomTutorialRepository;
+import com.ninja.alarm.repository.room.RoomUserRepository;
 
 /**
- * 단순 서비스 로케이터 — UI/AI 가 의존하는 repository 의 단일 공급 지점.
+ * 앱 전체 Repository DI 지점.
  *
- * 개발 중에는 Fake* 구현을 반환하고, BE(김동환) 구현이 들어오면 여기 한 곳만
- * 실제 구현으로 교체하면 된다. (지시서 4·10장의 "DI 지점")
- *
- * 데모 동안 상태(추가한 알람·커스텀 술법 등)를 공유해야 하므로 프로세스 싱글턴으로 둔다.
+ * BE 적용 후 UI 호출부는 그대로 Repositories.alarm(), sequence() 등을 사용한다.
+ * Application에서 Repositories.init(appContext)를 먼저 호출해야 한다.
  */
 public final class Repositories {
+    /**
+     * @deprecated "현재 사용자"는 로그인 세션에 따라 달라지므로
+     * {@link com.ninja.alarm.util.Session#userId(android.content.Context)} 를 사용하라.
+     * 이 상수는 시드 게스트 id(=Session.GUEST_USER_ID)와 동일한 호환용 값일 뿐이다.
+     */
+    @Deprecated
+    public static final long CURRENT_USER_ID = 1L;
+    private static Context appContext;
 
     private static AlarmRepository alarm;
     private static SequenceRepository sequence;
     private static DismissRepository dismiss;
     private static TutorialRepository tutorial;
     private static UserRepository user;
-
-    // 데모용 단일 사용자
-    public static final long CURRENT_USER_ID = 1L;
+    private static AuthRepository auth;
 
     private Repositories() {}
 
+    public static synchronized void init(Context context) {
+        appContext = context.getApplicationContext();
+
+        // init이 다시 호출되면 기존 싱글턴을 초기화해서 Context 교체/테스트에 안전하게 한다.
+        alarm = null;
+        sequence = null;
+        dismiss = null;
+        tutorial = null;
+        user = null;
+        auth = null;
+    }
+
+    private static Context requireContext() {
+        if (appContext == null) {
+            throw new IllegalStateException(
+                    "Repositories.init(context)가 먼저 호출되어야 합니다. " +
+                            "NinjaAlarmApp을 만들고 AndroidManifest.xml application android:name에 등록하세요."
+            );
+        }
+        return appContext;
+    }
+
     public static synchronized AlarmRepository alarm() {
-        if (alarm == null) alarm = new FakeAlarmRepository();
+        if (alarm == null) {
+            alarm = new RoomAlarmRepository(requireContext());
+            // 문제가 생기면 임시 복구:
+            // alarm = new FakeAlarmRepository();
+        }
         return alarm;
     }
 
     public static synchronized SequenceRepository sequence() {
-        if (sequence == null) sequence = new FakeSequenceRepository(alarm());
+        if (sequence == null) {
+            sequence = new RoomSequenceRepository(requireContext());
+            // 문제가 생기면 임시 복구:
+            // sequence = new FakeSequenceRepository(alarm());
+        }
         return sequence;
     }
 
     public static synchronized DismissRepository dismiss() {
-        if (dismiss == null) dismiss = new FakeDismissRepository();
+        if (dismiss == null) {
+            dismiss = new RoomDismissRepository(requireContext());
+            // 문제가 생기면 임시 복구:
+            // dismiss = new FakeDismissRepository();
+        }
         return dismiss;
     }
 
     public static synchronized TutorialRepository tutorial() {
-        if (tutorial == null) tutorial = new FakeTutorialRepository();
+        if (tutorial == null) {
+            tutorial = new RoomTutorialRepository(requireContext());
+            // 문제가 생기면 임시 복구:
+            // tutorial = new FakeTutorialRepository();
+        }
         return tutorial;
     }
 
     public static synchronized UserRepository user() {
-        if (user == null) user = new FakeUserRepository();
+        if (user == null) {
+            user = new RoomUserRepository(requireContext());
+            // 문제가 생기면 임시 복구:
+            // user = new FakeUserRepository();
+        }
         return user;
+    }
+
+    public static synchronized AuthRepository auth() {
+        if (auth == null) {
+            auth = new RoomAuthRepository(requireContext());
+        }
+        return auth;
     }
 }
