@@ -72,7 +72,7 @@ public final class RoomMappers {
     public static AlarmEntity toEntity(Alarm alarm) {
         long now = System.currentTimeMillis();
         return new AlarmEntity(
-                alarm.alarmId,
+                alarm.alarmId > 0 ? alarm.alarmId : 0,
                 alarm.timeHHmm,
                 alarm.repeatDays,
                 alarm.label,
