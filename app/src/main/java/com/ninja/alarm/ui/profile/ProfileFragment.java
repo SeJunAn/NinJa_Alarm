@@ -11,10 +11,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.ninja.alarm.R;
 import com.ninja.alarm.model.UserProfile;
 import com.ninja.alarm.repository.Repositories;
+import com.ninja.alarm.ui.auth.LoginActivity;
 import com.ninja.alarm.util.AppPrefs;
 import com.ninja.alarm.util.Session;
 
@@ -64,5 +66,24 @@ public class ProfileFragment extends Fragment {
         view.findViewById(R.id.openTutorialButton).setOnClickListener(v ->
                 startActivity(new Intent(requireContext(),
                         com.ninja.alarm.ui.tutorial.TutorialActivity.class)));
+        view.findViewById(R.id.logoutButton).setOnClickListener(v -> confirmLogout());
+    }
+
+    private void confirmLogout() {
+        new MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.profile_logout_confirm_title)
+                .setMessage(R.string.profile_logout_confirm_message)
+                .setNegativeButton(android.R.string.cancel, null)
+                .setPositiveButton(R.string.profile_logout, (dialog, which) -> logout())
+                .show();
+    }
+
+    private void logout() {
+        // 세션(SharedPreferences)만 비운다. Room DB 캐시(알람·시퀀스 등)는 의도적으로 보존한다.
+        Session.clear(requireContext());
+
+        Intent intent = new Intent(requireContext(), LoginActivity.class);
+        startActivity(intent);
+        requireActivity().finishAffinity(); // 백스택을 비워 뒤로가기로 홈에 돌아오지 못하게 한다.
     }
 }

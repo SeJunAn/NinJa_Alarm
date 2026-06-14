@@ -31,7 +31,23 @@
       "PowerShell($env:JAVA_HOME = \"C:\\\\Program Files\\\\Android\\\\Android Studio\\\\jbr\"; & \"C:\\\\Users\\\\ipl1\\\\Desktop\\\\MyApplication\\\\gradlew.bat\" -p \"C:\\\\Users\\\\ipl1\\\\Desktop\\\\MyApplication\" assembleDebug --console=plain 2>&1 | Select-Object -Last 40)",
       "PowerShell($env:JAVA_HOME = \"C:\\\\Program Files\\\\Android\\\\Android Studio\\\\jbr\"; & \"C:\\\\Users\\\\ipl1\\\\Desktop\\\\MyApplication\\\\gradlew.bat\" -p \"C:\\\\Users\\\\ipl1\\\\Desktop\\\\MyApplication\" lintDebug --console=plain 2>&1 | Select-Object -Last 35)",
       "PowerShell($env:JAVA_HOME = \"C:\\\\Program Files\\\\Android\\\\Android Studio\\\\jbr\"; & \"C:\\\\Users\\\\ipl1\\\\Desktop\\\\MyApplication\\\\gradlew.bat\" -p \"C:\\\\Users\\\\ipl1\\\\Desktop\\\\MyApplication\" assembleDebug lintDebug --console=plain 2>&1 | Select-Object -Last 45)",
-      "PowerShell($env:JAVA_HOME = \"C:\\\\Program Files\\\\Android\\\\Android Studio\\\\jbr\"; & \"C:\\\\Users\\\\ipl1\\\\Desktop\\\\MyApplication\\\\gradlew.bat\" -p \"C:\\\\Users\\\\ipl1\\\\Desktop\\\\MyApplication\" assembleDebug --console=plain 2>&1 | Select-Object -Last 8)"
+      "PowerShell($env:JAVA_HOME = \"C:\\\\Program Files\\\\Android\\\\Android Studio\\\\jbr\"; & \"C:\\\\Users\\\\ipl1\\\\Desktop\\\\MyApplication\\\\gradlew.bat\" -p \"C:\\\\Users\\\\ipl1\\\\Desktop\\\\MyApplication\" assembleDebug --console=plain 2>&1 | Select-Object -Last 8)",
+      "PowerShell(git stash *)",
+      "PowerShell(git push *)",
+      "PowerShell(git --no-pager diff stash@{0} -- .claude/settings.local.json)",
+      "Bash(dir -s -r)",
+      "Bash(dir app *)",
+      "Bash(dir -r)",
+      "Bash(Get-ChildItem -Recurse -Filter \"*.kt\" -o \"*.java\")",
+      "Bash(Select-Object FullName)",
+      "PowerShell($env:JAVA_HOME=\"C:\\\\Program Files\\\\Android\\\\Android Studio\\\\jbr\"; .\\\\gradlew.bat :app:compileDebugJavaWithJavac --console=plain 2>&1 | Select-String -Pattern \"BUILD|error:|FAILED|warning:\" | Select-Object -Last 25)",
+      "PowerShell($sdk=\"$env:LOCALAPPDATA\\\\Android\\\\Sdk\"; $adb=\"$sdk\\\\platform-tools\\\\adb.exe\"; & $adb devices)",
+      "PowerShell($sdk=\"$env:LOCALAPPDATA\\\\Android\\\\Sdk\"; $emu=\"$sdk\\\\emulator\\\\emulator.exe\"; if \\(Test-Path $emu\\) { & $emu -list-avds } else { Write-Output \"emulator.exe 없음: $emu\" })",
+      "PowerShell($sdk=\"$env:LOCALAPPDATA\\\\Android\\\\Sdk\"; $emu=\"$sdk\\\\emulator\\\\emulator.exe\"; & $emu -avd Pixel_10_Pro -no-snapshot-load)",
+      "PowerShell($env:JAVA_HOME=\"C:\\\\Program Files\\\\Android\\\\Android Studio\\\\jbr\"; .\\\\gradlew.bat :app:assembleDebug --console=plain 2>&1 | Select-String -Pattern \"BUILD|error:|FAILED\" | Select-Object -Last 20)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\ipl1\\\\Desktop\\\\MyApplication\" -Recurse -Directory)",
+      "Bash(Select-Object -First 20)",
+      "PowerShell($env:JAVA_HOME=\"C:\\\\Program Files\\\\Android\\\\Android Studio\\\\jbr\"; .\\\\gradlew.bat :app:assembleDebug --console=plain 2>&1 | Select-String -Pattern \"BUILD|error:|FAILED|e: |viewpager|cannot find\" | Select-Object -Last 30)"
     ]
   }
 }

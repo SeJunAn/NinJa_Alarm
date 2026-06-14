@@ -24,6 +24,9 @@ public class SealAdapter extends RecyclerView.Adapter<SealAdapter.VH> {
 
     public interface Listener {
         void onToggle(int sealId, boolean completed);
+
+        /** 카드를 탭하면 해당 위치(0-기반)의 인 상세(맺는 법)를 연다. */
+        void onOpen(int position);
     }
 
     private final List<Seal> seals = new ArrayList<>();
@@ -55,6 +58,9 @@ public class SealAdapter extends RecyclerView.Adapter<SealAdapter.VH> {
         Seal s = seals.get(position);
         h.zodiac.setText(s.zodiac);
         h.name.setText(s.name);
+
+        // 카드 본문 탭 → 상세(맺는 법). 체크박스는 자체 클릭을 소비하므로 열기와 충돌하지 않는다.
+        h.itemView.setOnClickListener(v -> listener.onOpen(h.getBindingAdapterPosition()));
 
         h.done.setOnCheckedChangeListener(null);
         h.done.setChecked(completed.contains(s.sealId));

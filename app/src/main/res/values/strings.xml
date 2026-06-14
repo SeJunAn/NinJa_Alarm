@@ -101,6 +101,9 @@
     <string name="profile_exp">%1$d / %2$d EXP</string>
     <string name="profile_open_stats">통계 보기</string>
     <string name="profile_open_tutorial">인 학습</string>
+    <string name="profile_logout">로그아웃</string>
+    <string name="profile_logout_confirm_title">로그아웃</string>
+    <string name="profile_logout_confirm_message">로그아웃하시겠습니까?\n알람·시퀀스 등 기기에 저장된 데이터는 그대로 유지됩니다.</string>
 
     <!-- 통계 -->
     <string name="stats_title">통계</string>
@@ -116,8 +119,31 @@
     <!-- 튜토리얼(인 학습) -->
     <string name="tutorial_title">인 학습</string>
     <string name="tutorial_progress">%1$d / %2$d 완료</string>
-    <string name="tutorial_seal_guide">손모양 가이드 준비 중</string>
+    <string name="tutorial_seal_guide">탭하여 맺는 법 보기</string>
     <string name="cd_seal_completed">학습 완료 표시</string>
+
+    <!-- 인 상세(맺는 법) -->
+    <string name="seal_detail_position">%1$d / %2$d</string>
+    <string name="seal_detail_howto">맺는 법</string>
+    <string name="cd_seal_image">손모양 가이드 그림</string>
+    <string name="cd_seal_prev">이전 인</string>
+    <string name="cd_seal_next">다음 인</string>
+
+    <!-- 12종 인 맺는 법 설명 (sealId 1~12 순서) -->
+    <string-array name="seal_howto">
+        <item>양손을 가슴 앞에서 깍지 끼고, 두 검지만 펴서 끝을 마주 댄다.</item>
+        <item>깍지 낀 양손에서 두 중지를 곧게 세워 끝을 맞댄다.</item>
+        <item>양 손바닥을 마주 붙이고, 두 검지와 중지를 함께 펴 위로 세운다.</item>
+        <item>왼손은 가볍게 주먹을 쥐고, 오른손 검지·중지를 펴 왼손목에 갖다 댄다.</item>
+        <item>양손을 깍지 끼되 손가락 끝이 위를 향하도록 비스듬히 모은다.</item>
+        <item>양손을 깍지 낀 채 손바닥을 단단히 맞붙인다.</item>
+        <item>깍지 낀 양손에서 두 검지를 펴 비스듬히 교차시킨다.</item>
+        <item>양손을 깍지 끼고 두 검지를 모아 위로 곧게 세운다.</item>
+        <item>오른손을 위, 왼손을 아래로 두고 손바닥을 엇갈려 맞잡는다.</item>
+        <item>두 손바닥과 손가락을 가지런히 모아 합장한다.</item>
+        <item>왼손바닥을 펴 위로 향하게 하고, 그 위에 오른 주먹을 가만히 얹는다.</item>
+        <item>양손을 깍지 끼고 손등이 위로 오도록 뒤집어 가슴 앞에 모은다.</item>
+    </string-array>
 
     <!-- 설정 -->
     <string name="settings_title">설정</string>

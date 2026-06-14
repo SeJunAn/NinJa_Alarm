@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 인 상세 한 페이지 — 손모양 그림(현재 자리표시자) + 이름 + 맺는 법 설명. -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="@dimen/space_xl">
+
+        <!-- 손모양 그림 영역: 흰 배경 일러스트를 라운드 카드 프레임에 표시.
+             그림이 없으면 한자 자리표시자로 폴백한다. -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="280dp"
+            android:layout_height="280dp"
+            android:layout_marginTop="@dimen/space_lg"
+            app:cardBackgroundColor="#FFFFFF"
+            app:cardCornerRadius="20dp"
+            app:strokeColor="@color/shinobi"
+            app:strokeWidth="2dp">
+
+            <ImageView
+                android:id="@+id/sealImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/cd_seal_image"
+                android:scaleType="fitCenter"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/sealZodiacBig"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/sumi"
+                android:textSize="96sp"
+                tools:text="寅" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:id="@+id/sealName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_xl"
+            android:gravity="center"
+            android:textAppearance="?attr/textAppearanceHeadlineSmall"
+            android:textColor="@color/washi"
+            tools:text="호랑이 · Tora" />
+
+        <TextView
+            android:id="@+id/sealZodiacLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_xs"
+            android:textColor="@color/kasumi"
+            tools:text="寅" />
+
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Widget.Ninja.Card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_xxl">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/space_lg">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/seal_detail_howto"
+                    android:textColor="@color/shinobi"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/sealHowto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_sm"
+                    android:lineSpacingMultiplier="1.3"
+                    android:textAppearance="?attr/textAppearanceBodyLarge"
+                    android:textColor="@color/washi"
+                    tools:text="양 손바닥을 마주 붙이고, 두 검지와 중지를 함께 펴 위로 세운다." />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+</ScrollView>

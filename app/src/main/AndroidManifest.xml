@@ -69,6 +69,10 @@
             android:exported="false" />
 
         <activity
+            android:name=".ui.tutorial.SealDetailActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".ui.settings.SettingsActivity"
             android:exported="false" />
 

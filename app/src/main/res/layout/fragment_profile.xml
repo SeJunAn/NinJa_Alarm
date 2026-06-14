@@ -93,5 +93,13 @@
             android:layout_marginTop="@dimen/space_sm"
             android:text="@string/profile_open_tutorial" />
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/logoutButton"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/space_lg"
+            android:text="@string/profile_logout" />
+
     </LinearLayout>
 </ScrollView>

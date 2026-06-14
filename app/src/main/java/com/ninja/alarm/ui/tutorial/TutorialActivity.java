@@ -1,5 +1,6 @@
 package com.ninja.alarm.ui.tutorial;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
@@ -56,6 +57,13 @@ public class TutorialActivity extends AppCompatActivity implements SealAdapter.L
 
         adapter.submit(seals, completed);
         updateProgress(completed.size());
+    }
+
+    @Override
+    public void onOpen(int position) {
+        Intent intent = new Intent(this, SealDetailActivity.class);
+        intent.putExtra(SealDetailActivity.EXTRA_START_POSITION, position);
+        startActivity(intent);
     }
 
     @Override
