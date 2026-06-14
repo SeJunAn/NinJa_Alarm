@@ -58,7 +58,9 @@
 
         <activity
             android:name=".ui.dismiss.DismissActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:showWhenLocked="true"
+            android:turnScreenOn="true" />
 
         <activity
             android:name=".ui.profile.StatsActivity"

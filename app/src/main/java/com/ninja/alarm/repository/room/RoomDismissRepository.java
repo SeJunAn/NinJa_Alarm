@@ -3,6 +3,7 @@ package com.ninja.alarm.repository.room;
 import android.content.Context;
 import android.content.Intent;
 
+import com.ninja.alarm.alarm.AlarmService;
 import com.ninja.alarm.data.NinjaDatabase;
 import com.ninja.alarm.data.entity.DismissLogEntity;
 import com.ninja.alarm.data.entity.UserEntity;
@@ -47,8 +48,9 @@ public class RoomDismissRepository implements DismissRepository {
                 db.userDao().updateGrowth(userId, newExp, newLevel, newTitle, now);
             }
 
-            // Phase B2의 AlarmService가 이 액션을 받으면 알람음/진동을 정지하도록 연결.
-            appContext.sendBroadcast(new Intent(ACTION_STOP_ALARM));
+            Intent stop = new Intent(appContext, AlarmService.class)
+                    .setAction(ACTION_STOP_ALARM);
+            appContext.startService(stop);
         }
     }
 

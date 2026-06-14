@@ -1,13 +1,18 @@
 package com.ninja.alarm.ui.settings;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -23,6 +28,17 @@ import com.ninja.alarm.util.AppPrefs;
 public class SettingsActivity extends AppCompatActivity {
 
     private TextView cameraStatus;
+    private TextView soundStatus;
+
+    private final ActivityResultLauncher<Intent> soundPicker =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+                if (result.getResultCode() != Activity.RESULT_OK || result.getData() == null) return;
+                Uri uri = result.getData().getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
+                if (uri == null) return;
+
+                AppPrefs.setAlarmSound(this, uri.toString(), titleFor(uri));
+                updateSoundStatus();
+            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +49,9 @@ public class SettingsActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(v -> finish());
 
         cameraStatus = findViewById(R.id.cameraStatus);
+        soundStatus = findViewById(R.id.soundStatus);
+
+        findViewById(R.id.rowSound).setOnClickListener(v -> showSoundPicker());
 
         // 카메라 권한 행 → 시스템 앱 설정 열기
         findViewById(R.id.rowCamera).setOnClickListener(v -> openAppSettings());
@@ -48,6 +67,7 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         updateCameraStatus(); // 설정에서 권한을 바꾸고 돌아오면 갱신
+        updateSoundStatus();
     }
 
     private void updateCameraStatus() {
@@ -60,5 +80,43 @@ public class SettingsActivity extends AppCompatActivity {
         Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
                 Uri.fromParts("package", getPackageName(), null));
         startActivity(intent);
+    }
+
+    private void updateSoundStatus() {
+        String title = AppPrefs.getAlarmSoundTitle(this);
+        soundStatus.setText(title == null || title.trim().isEmpty()
+                ? getString(R.string.add_alarm_sound_default)
+                : title);
+    }
+
+    private void showSoundPicker() {
+        Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER)
+                .putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_ALARM)
+                .putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, getString(R.string.add_alarm_pick_sound))
+                .putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, false)
+                .putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, true)
+                .putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI, currentSoundUri());
+        soundPicker.launch(intent);
+    }
+
+    private Uri currentSoundUri() {
+        String saved = AppPrefs.getAlarmSoundUri(this);
+        if (saved != null && !saved.trim().isEmpty()) return Uri.parse(saved);
+
+        Uri fallback = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        if (fallback == null) fallback = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        return fallback;
+    }
+
+    private String titleFor(Uri uri) {
+        try {
+            Ringtone ringtone = RingtoneManager.getRingtone(this, uri);
+            if (ringtone != null) {
+                String title = ringtone.getTitle(this);
+                if (title != null && !title.trim().isEmpty()) return title;
+            }
+        } catch (Exception ignored) {
+        }
+        return getString(R.string.add_alarm_sound_default);
     }
 }

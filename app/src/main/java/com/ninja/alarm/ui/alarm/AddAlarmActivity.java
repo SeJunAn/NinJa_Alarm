@@ -1,10 +1,16 @@
 package com.ninja.alarm.ui.alarm;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
@@ -18,6 +24,7 @@ import com.ninja.alarm.model.Alarm;
 import com.ninja.alarm.model.Sequence;
 import com.ninja.alarm.repository.Repositories;
 import com.ninja.alarm.ui.dismiss.DismissActivity;
+import com.ninja.alarm.util.AppPrefs;
 
 import java.util.List;
 import java.util.Locale;
@@ -36,8 +43,18 @@ public class AddAlarmActivity extends AppCompatActivity {
     private Sequence selectedSequence;
 
     private Chip[] dayChips;
-    private TextView timeValue, sequenceName, sequenceMeta;
+    private TextView timeValue, sequenceName, sequenceMeta, soundValue;
     private TextInputEditText labelInput;
+
+    private final ActivityResultLauncher<Intent> soundPicker =
+            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+                if (result.getResultCode() != Activity.RESULT_OK || result.getData() == null) return;
+                Uri uri = result.getData().getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
+                if (uri == null) return;
+
+                AppPrefs.setAlarmSound(this, uri.toString(), titleFor(uri));
+                renderSound();
+            });
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +67,7 @@ public class AddAlarmActivity extends AppCompatActivity {
         timeValue = findViewById(R.id.timeValue);
         sequenceName = findViewById(R.id.sequenceName);
         sequenceMeta = findViewById(R.id.sequenceMeta);
+        soundValue = findViewById(R.id.soundValue);
         labelInput = findViewById(R.id.labelInput);
 
         dayChips = new Chip[]{
@@ -70,9 +88,11 @@ public class AddAlarmActivity extends AppCompatActivity {
 
         renderTime();
         renderSequence();
+        renderSound();
 
         findViewById(R.id.pickTimeButton).setOnClickListener(v -> showTimePicker());
         findViewById(R.id.sequenceRow).setOnClickListener(v -> showSequencePicker());
+        findViewById(R.id.soundRow).setOnClickListener(v -> showSoundPicker());
         ((MaterialButton) findViewById(R.id.saveButton)).setOnClickListener(v -> save());
         ((MaterialButton) findViewById(R.id.tryDismissButton)).setOnClickListener(v -> tryDismiss());
     }
@@ -138,6 +158,45 @@ public class AddAlarmActivity extends AppCompatActivity {
         sequenceName.setText(selectedSequence.name);
         sequenceMeta.setText(selectedSequence.difficulty.label + " · "
                 + getString(R.string.seal_count, selectedSequence.sealCount()));
+    }
+
+    private void renderSound() {
+        String title = AppPrefs.getAlarmSoundTitle(this);
+        soundValue.setText(title == null || title.trim().isEmpty()
+                ? getString(R.string.add_alarm_sound_default)
+                : title);
+    }
+
+    private void showSoundPicker() {
+        Uri current = currentSoundUri();
+        Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER)
+                .putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_ALARM)
+                .putExtra(RingtoneManager.EXTRA_RINGTONE_TITLE, getString(R.string.add_alarm_pick_sound))
+                .putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, false)
+                .putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, true)
+                .putExtra(RingtoneManager.EXTRA_RINGTONE_EXISTING_URI, current);
+        soundPicker.launch(intent);
+    }
+
+    private Uri currentSoundUri() {
+        String saved = AppPrefs.getAlarmSoundUri(this);
+        if (saved != null && !saved.trim().isEmpty()) return Uri.parse(saved);
+
+        Uri fallback = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        if (fallback == null) fallback = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        return fallback;
+    }
+
+    private String titleFor(Uri uri) {
+        try {
+            Ringtone ringtone = RingtoneManager.getRingtone(this, uri);
+            if (ringtone != null) {
+                String title = ringtone.getTitle(this);
+                if (title != null && !title.trim().isEmpty()) return title;
+            }
+        } catch (Exception ignored) {
+        }
+        return getString(R.string.add_alarm_sound_default);
     }
 
     private int currentRepeatDays() {

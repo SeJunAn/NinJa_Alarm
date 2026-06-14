@@ -60,6 +60,7 @@
     <string name="add_alarm_label_hint">예: 기상</string>
     <string name="add_alarm_sound">알람음</string>
     <string name="add_alarm_sound_default">기본 알람음</string>
+    <string name="add_alarm_pick_sound">알람음 선택</string>
     <string name="add_alarm_time_limit">제한시간 %1$d초</string>
     <string name="seal_count">인 %1$d개</string>
 

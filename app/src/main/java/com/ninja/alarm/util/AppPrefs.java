@@ -11,6 +11,8 @@ public final class AppPrefs {
 
     private static final String FILE = "ninja_prefs";
     private static final String KEY_REDUCE_MOTION = "reduce_motion";
+    private static final String KEY_ALARM_SOUND_URI = "alarm_sound_uri";
+    private static final String KEY_ALARM_SOUND_TITLE = "alarm_sound_title";
 
     private AppPrefs() {}
 
@@ -24,5 +26,20 @@ public final class AppPrefs {
 
     public static void setReduceMotion(Context ctx, boolean enabled) {
         prefs(ctx).edit().putBoolean(KEY_REDUCE_MOTION, enabled).apply();
+    }
+
+    public static String getAlarmSoundUri(Context ctx) {
+        return prefs(ctx).getString(KEY_ALARM_SOUND_URI, null);
+    }
+
+    public static String getAlarmSoundTitle(Context ctx) {
+        return prefs(ctx).getString(KEY_ALARM_SOUND_TITLE, null);
+    }
+
+    public static void setAlarmSound(Context ctx, String uri, String title) {
+        prefs(ctx).edit()
+                .putString(KEY_ALARM_SOUND_URI, uri)
+                .putString(KEY_ALARM_SOUND_TITLE, title)
+                .apply();
     }
 }
