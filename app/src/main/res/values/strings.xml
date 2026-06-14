@@ -46,6 +46,8 @@
     <string name="alarm_channel_desc">알람이 울리는 동안 해제 화면을 보여줍니다</string>
     <string name="alarm_ringing_title">알람이 울리고 있어요</string>
     <string name="alarm_ringing_body">인을 순서대로 맺어 알람을 해제하세요</string>
+    <string name="full_screen_alarm_permission_title">전체 화면 알람 허용</string>
+    <string name="full_screen_alarm_permission_message">앱이 백그라운드에 있어도 해제 화면이 바로 뜨려면 전체 화면 알림 권한이 필요합니다. 설정에서 닌자 알람의 전체 화면 알림을 허용해 주세요.</string>
     <string name="cd_alarm_toggle">알람 켜기/끄기</string>
 
     <!-- 알람 추가/편집 -->
@@ -161,6 +163,7 @@
     <string name="action_save">저장</string>
     <string name="action_saved">저장됨</string>
     <string name="action_cancel">취소</string>
+    <string name="action_later">나중에</string>
     <string name="action_settings">설정</string>
     <string name="cd_logo">닌자 알람 인장 로고</string>
     <string name="cd_back">뒤로</string>

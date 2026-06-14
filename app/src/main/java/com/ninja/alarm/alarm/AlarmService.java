@@ -17,6 +17,7 @@ import android.os.Build;
 import android.os.IBinder;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -29,6 +30,7 @@ import com.ninja.alarm.util.AppPrefs;
  * Foreground alarm player. It runs until DismissActivity records a successful dismiss.
  */
 public class AlarmService extends Service {
+    private static final String TAG = "AlarmService";
     public static final String ACTION_START_ALARM = "com.ninja.alarm.action.START_ALARM";
 
     private static final String CHANNEL_ID = "ninja_alarm_ringing";
@@ -62,6 +64,7 @@ public class AlarmService extends Service {
 
         if (intent != null && ACTION_START_ALARM.equals(intent.getAction())) {
             long alarmId = intent.getLongExtra(AlarmScheduler.EXTRA_ALARM_ID, -1L);
+            logFullScreenState();
             startForeground(NOTIFICATION_ID, buildNotification(alarmId));
             startSound();
             startVibration();
@@ -121,9 +124,14 @@ public class AlarmService extends Service {
     private void openDismissScreen(long alarmId) {
         try {
             startActivity(dismissIntent(alarmId));
-        } catch (Exception ignored) {
-            // Full-screen notification remains as fallback if background launch is restricted.
+        } catch (Exception e) {
+            Log.w(TAG, "background activity launch blocked; relying on full-screen notification", e);
         }
+    }
+
+    private void logFullScreenState() {
+        if (!FullScreenAlarmPermission.isRequired()) return;
+        Log.i(TAG, "canUseFullScreenIntent=" + FullScreenAlarmPermission.canUse(this));
     }
 
     private void createChannel() {
