@@ -75,6 +75,11 @@
             android:exported="false" />
 
         <activity
+            android:name=".ui.tutorial.SealPracticeActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".ui.settings.SettingsActivity"
             android:exported="false" />
 

@@ -1,5 +1,6 @@
 package com.ninja.alarm.ui.tutorial;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,6 +64,13 @@ public class SealPagerAdapter extends RecyclerView.Adapter<SealPagerAdapter.VH> 
         h.zodiacLabel.setText(s.zodiac);
         h.howto.setText(howtoFor(s.sealId));
 
+        // 카메라로 이 인 1개를 연습하는 화면 진입.
+        h.practiceButton.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), SealPracticeActivity.class);
+            intent.putExtra(SealPracticeActivity.EXTRA_SEAL_ID, s.sealId);
+            v.getContext().startActivity(intent);
+        });
+
         // 우선순위: 외부 실사 이미지(imageUri) > 도식형 벡터 > 한자 자리표시자.
         if (s.imageUri != null) {
             // 실제 손모양 그림(파일/원격 URI)이 준비된 경우.
@@ -87,8 +95,8 @@ public class SealPagerAdapter extends RecyclerView.Adapter<SealPagerAdapter.VH> 
         h.zodiacBig.setVisibility(View.GONE);
     }
 
-    /** sealId 에 해당하는 도식형 벡터(범위를 벗어나면 0). */
-    private static int artFor(int sealId) {
+    /** sealId 에 해당하는 손모양 일러스트 리소스(범위를 벗어나면 0). 연습 화면에서도 재사용. */
+    public static int artFor(int sealId) {
         int idx = sealId - 1;
         return (idx >= 0 && idx < SEAL_ART.length) ? SEAL_ART[idx] : 0;
     }
@@ -110,6 +118,7 @@ public class SealPagerAdapter extends RecyclerView.Adapter<SealPagerAdapter.VH> 
     static class VH extends RecyclerView.ViewHolder {
         final ImageView image;
         final TextView zodiacBig, name, zodiacLabel, howto;
+        final View practiceButton;
 
         VH(@NonNull View v) {
             super(v);
@@ -118,6 +127,7 @@ public class SealPagerAdapter extends RecyclerView.Adapter<SealPagerAdapter.VH> 
             name = v.findViewById(R.id.sealName);
             zodiacLabel = v.findViewById(R.id.sealZodiacLabel);
             howto = v.findViewById(R.id.sealHowto);
+            practiceButton = v.findViewById(R.id.practiceButton);
         }
     }
 }

@@ -132,6 +132,15 @@
     <string name="cd_seal_prev">이전 인</string>
     <string name="cd_seal_next">다음 인</string>
 
+    <!-- 인 연습(카메라) -->
+    <string name="seal_practice_open">카메라로 연습하기</string>
+    <string name="seal_practice_title">인 연습</string>
+    <string name="seal_practice_target">이 인을 맺어보세요</string>
+    <string name="seal_practice_hint">손을 화면에 비추고 인을 맺으세요</string>
+    <string name="seal_practice_waiting">손을 화면에 비춰주세요</string>
+    <string name="seal_practice_success">정확해요! 인을 익혔어요</string>
+    <string name="cd_seal_practice_close">닫기</string>
+
     <!-- 12종 인 맺는 법 설명 (sealId 1~12 순서) -->
     <string-array name="seal_howto">
         <item>양손을 가슴 앞에서 깍지 끼고, 두 검지만 펴서 끝을 마주 댄다.</item>
