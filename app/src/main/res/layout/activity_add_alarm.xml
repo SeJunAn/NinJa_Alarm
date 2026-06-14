@@ -142,9 +142,13 @@
 
             <!-- 알람음(정적) -->
             <LinearLayout
+                android:id="@+id/soundRow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_lg"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
                 android:orientation="horizontal">
 
                 <TextView
@@ -155,6 +159,7 @@
                     android:text="@string/add_alarm_sound" />
 
                 <TextView
+                    android:id="@+id/soundValue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/add_alarm_sound_default"

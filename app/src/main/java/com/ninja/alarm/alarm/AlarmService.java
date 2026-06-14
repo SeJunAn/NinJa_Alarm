@@ -17,17 +17,20 @@ import android.os.Build;
 import android.os.IBinder;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
 import com.ninja.alarm.R;
 import com.ninja.alarm.repository.room.RoomDismissRepository;
 import com.ninja.alarm.ui.dismiss.DismissActivity;
+import com.ninja.alarm.util.AppPrefs;
 
 /**
  * Foreground alarm player. It runs until DismissActivity records a successful dismiss.
  */
 public class AlarmService extends Service {
+    private static final String TAG = "AlarmService";
     public static final String ACTION_START_ALARM = "com.ninja.alarm.action.START_ALARM";
 
     private static final String CHANNEL_ID = "ninja_alarm_ringing";
@@ -54,11 +57,18 @@ public class AlarmService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        if (intent != null && RoomDismissRepository.ACTION_STOP_ALARM.equals(intent.getAction())) {
+            stopAlarm();
+            return START_NOT_STICKY;
+        }
+
         if (intent != null && ACTION_START_ALARM.equals(intent.getAction())) {
             long alarmId = intent.getLongExtra(AlarmScheduler.EXTRA_ALARM_ID, -1L);
+            logFullScreenState();
             startForeground(NOTIFICATION_ID, buildNotification(alarmId));
             startSound();
             startVibration();
+            openDismissScreen(alarmId);
             return START_STICKY;
         }
         return START_NOT_STICKY;
@@ -79,9 +89,7 @@ public class AlarmService extends Service {
     }
 
     private Notification buildNotification(long alarmId) {
-        Intent dismiss = new Intent(this, DismissActivity.class)
-                .putExtra(DismissActivity.EXTRA_ALARM_ID, alarmId)
-                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        Intent dismiss = dismissIntent(alarmId);
         PendingIntent dismissIntent = PendingIntent.getActivity(
                 this,
                 (int) (alarmId & 0x7FFFFFFF),
@@ -103,6 +111,27 @@ public class AlarmService extends Service {
                 .setCategory(Notification.CATEGORY_ALARM)
                 .setPriority(Notification.PRIORITY_MAX)
                 .build();
+    }
+
+    private Intent dismissIntent(long alarmId) {
+        return new Intent(this, DismissActivity.class)
+                .putExtra(DismissActivity.EXTRA_ALARM_ID, alarmId)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                        | Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+    }
+
+    private void openDismissScreen(long alarmId) {
+        try {
+            startActivity(dismissIntent(alarmId));
+        } catch (Exception e) {
+            Log.w(TAG, "background activity launch blocked; relying on full-screen notification", e);
+        }
+    }
+
+    private void logFullScreenState() {
+        if (!FullScreenAlarmPermission.isRequired()) return;
+        Log.i(TAG, "canUseFullScreenIntent=" + FullScreenAlarmPermission.canUse(this));
     }
 
     private void createChannel() {
@@ -138,13 +167,44 @@ public class AlarmService extends Service {
 
     private void startSound() {
         if (player != null && player.isPlaying()) return;
-        Uri alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
-        if (alarmUri == null) alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        Uri alarmUri = resolveAlarmUri();
         if (alarmUri == null) return;
 
         try {
             player = new MediaPlayer();
             player.setDataSource(this, alarmUri);
+            player.setAudioAttributes(new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_ALARM)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                    .build());
+            player.setLooping(true);
+            player.prepare();
+            player.start();
+        } catch (Exception ignored) {
+            releaseSound();
+            startDefaultSoundFallback();
+        }
+    }
+
+    private Uri resolveAlarmUri() {
+        String saved = AppPrefs.getAlarmSoundUri(this);
+        if (saved != null && !saved.trim().isEmpty()) {
+            return Uri.parse(saved);
+        }
+
+        Uri alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        if (alarmUri == null) alarmUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        return alarmUri;
+    }
+
+    private void startDefaultSoundFallback() {
+        Uri fallback = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+        if (fallback == null) fallback = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        if (fallback == null) return;
+
+        try {
+            player = new MediaPlayer();
+            player.setDataSource(this, fallback);
             player.setAudioAttributes(new AudioAttributes.Builder()
                     .setUsage(AudioAttributes.USAGE_ALARM)
                     .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)

@@ -12,9 +12,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.ninja.alarm.R;
+import com.ninja.alarm.alarm.FullScreenAlarmPermission;
 import com.ninja.alarm.ui.alarm.AlarmListFragment;
 import com.ninja.alarm.ui.profile.ProfileFragment;
 import com.ninja.alarm.ui.sequence.SequenceListFragment;
@@ -36,6 +38,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         requestNotificationPermissionIfNeeded();
+        requestFullScreenAlarmPermissionIfNeeded();
 
         MaterialToolbar toolbar = findViewById(R.id.topAppBar);
         toolbar.setOnMenuItemClickListener(item -> {
@@ -83,5 +86,23 @@ public class HomeActivity extends AppCompatActivity {
             return;
         }
         notificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS);
+    }
+
+    private void requestFullScreenAlarmPermissionIfNeeded() {
+        if (!FullScreenAlarmPermission.isRequired()) return;
+        if (FullScreenAlarmPermission.canUse(this)) return;
+
+        new MaterialAlertDialogBuilder(this)
+                .setTitle(R.string.full_screen_alarm_permission_title)
+                .setMessage(R.string.full_screen_alarm_permission_message)
+                .setNegativeButton(R.string.action_later, null)
+                .setPositiveButton(R.string.action_settings, (dialog, which) -> {
+                    try {
+                        startActivity(FullScreenAlarmPermission.settingsIntent(this));
+                    } catch (Exception ignored) {
+                        startActivity(new Intent(this, SettingsActivity.class));
+                    }
+                })
+                .show();
     }
 }
